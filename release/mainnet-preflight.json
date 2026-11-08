@@ -1,0 +1,19 @@
+{
+  "checkedAtUTC": "2026-11-08T23:04:35.780Z",
+  "readOnly": true,
+  "program": "35UELzdncBr15qztq55Kct3sZvmXnn5D5e5rpGiHgMuC",
+  "programExists": false,
+  "admin": "3vkTXSV3LG7ZrZt1SWMnEYBjNBiYAg168fbEV3Q6skTi",
+  "adminSOL": 0,
+  "recordedDeployer": "2XPJm6qcPurJJ31jHrJZTKYoBQS9HkAtt1NyMnizXDWq",
+  "deployerSOL": 0,
+  "binaryBytes": 408704,
+  "reviewedAllocationBytes": 409600,
+  "programRentSOL": 0.00083312,
+  "programDataRentSOL": 2.08164684,
+  "transientBufferRentSOL": 2.07705452,
+  "conservativePeakDeployRentSOL": 4.15953448,
+  "raydiumConfig": "D4FPEruKEHrG5TenZ2mpDGEfu1iUvTiqBxvpU8HLBvC2",
+  "raydiumCreatePoolFeeLamports": "150000000",
+  "raydiumPoolCreationDisabled": false
+}

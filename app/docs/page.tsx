@@ -1,0 +1,10 @@
+export default function DocsPage(){return <div style={{maxWidth:680}}>
+  <div className="tag"><h1>How ratchet works</h1></div>
+  <p>A Solana launchpad with a floor price backed by a reserved SOL vault.</p>
+  <h2>Before graduation</h2><p>Buys pay 1.25% into the floor vault. Creators choose a curve sell tax of 1.25–5%, also paid into the vault. A creator buy puts 25% directly into the floor and uses the rest to buy tokens. Nobody receives a platform or creator tax.</p>
+  <p>A curve sale receives the higher of its net curve quote and its floor redemption value. Floor payouts burn the tokens and are untaxed. The floor price can rise; the vault balance can fall when it pays holders.</p>
+  <h2>Buying at an established floor</h2><p>New tokens must be backed at the existing floor. A solvency cap can reduce how many tokens a buy receives, even before a crash. Graduation cost depends on buy sizes, the initial seed and subsequent sales; it is not a fixed 86 SOL target. Review your quote and slippage limit before signing.</p>
+  <h2>Graduation to Raydium</h2><p>Anyone can migrate a completed curve. The program reserves enough SOL to back every outstanding token at the fixed graduation floor, including tokens deposited into the pool. It uses remaining reserves to create the canonical Raydium CPMM pool and burns the received LP. A 0.3 SOL reserve pays account creation and pool fees; its unused balance rewards the caller. The caller still needs transaction fees.</p>
+  <h2>After graduation</h2><p>Trade at market prices on Raydium, or burn tokens here to redeem their fixed floor value. Floor redemption remains untaxed. Raydium trades use Raydium fees and do not fund the Ratchet vault. The floor stays fixed after migration; locked LP is separate from the redemption vault.</p>
+  <h2>Release status</h2><p>This release candidate has not received an independent audit. Mainnet trading stays disabled until deployment verification and the launch checklist are complete. USD values are estimates using the configured SOL/USD assumption; on-chain quotes and payments use SOL.</p>
+</div>;}

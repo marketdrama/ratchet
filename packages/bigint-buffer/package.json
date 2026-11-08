@@ -1,0 +1,7 @@
+{
+  "name": "@ratchet/bigint-buffer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pure JavaScript bigint-buffer API replacement; no native addon",
+  "main": "index.cjs"
+}

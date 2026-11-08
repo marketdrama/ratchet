@@ -1,0 +1,15 @@
+{
+  "kind": "mainnet-bytecode-local-validator",
+  "mainnetDependenciesCloned": true,
+  "program": "35UELzdncBr15qztq55Kct3sZvmXnn5D5e5rpGiHgMuC",
+  "mint": "7Rzx8MnV1qYsDMXBvpkTtd4dbfj9MC3oPYDjPKP4LHrG",
+  "pool": "JCXnsodAhYmCawQZFL3eMAR1wNGpF4BYie4ZqY2qjP7a",
+  "migrationSignature": "2LVD63rAfhF9jTb2KdHkKHEukgDJw2hfw3xDgNWaDnUWtj4db6K34StqmkJnrwXAduzuzc983RYPnqTm89Na3LL8",
+  "artifactSha256": "85a8daec2c5fec1c360fec6b56f51572026bf649167589f038dae011e6f3c17e",
+  "productionParams": true,
+  "engineParity": true,
+  "metadataImmutable": true,
+  "lpSupply": "0",
+  "fullSupplyFloorBacking": true,
+  "redemption": true
+}

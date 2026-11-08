@@ -1,0 +1,27 @@
+[package]
+name = "ratchet-curve"
+version = "0.1.0"
+edition = "2021"
+description = "Ratchet bonding curve — a floor that only clicks up"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "ratchet_curve"
+
+[features]
+default = []
+devnet = []
+test-admin = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
+
+[dependencies]
+anchor-lang = { version = "=0.31.1", features = ["init-if-needed"] }
+anchor-spl = "=0.31.1"
+# Pin to the template-era toolchain. The latest solana-program 2.3.x / borsh 1.8.x
+# patches moved transitive crates to edition2024, which the SBF rustc (1.79) can't
+# build. 2.2.1 is what the template verified against and predates that bump.
+solana-program = "=2.2.1"

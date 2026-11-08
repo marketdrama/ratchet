@@ -1,0 +1,849 @@
+{
+  "address": "35UELzdncBr15qztq55Kct3sZvmXnn5D5e5rpGiHgMuC",
+  "metadata": {
+    "name": "ratchet_curve",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Ratchet bonding curve — a floor that only clicks up"
+  },
+  "instructions": [
+    {
+      "name": "buy",
+      "docs": [
+        "Buy with `sol_in` lamports; receive at least `min_tokens_out` base tokens."
+      ],
+      "discriminator": [
+        102,
+        6,
+        61,
+        18,
+        1,
+        218,
+        235,
+        234
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "global"
+        },
+        {
+          "name": "mint",
+          "writable": true
+        },
+        {
+          "name": "bonding_curve",
+          "writable": true
+        },
+        {
+          "name": "sol_vault",
+          "docs": [
+            "System-owned SOL vault PDA — all of the coin's lamports (reserves + floor) live here."
+          ],
+          "writable": true
+        },
+        {
+          "name": "curve_vault",
+          "writable": true
+        },
+        {
+          "name": "user_ata",
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "associated_token_program"
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "sol_in",
+          "type": "u64"
+        },
+        {
+          "name": "min_tokens_out",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "docs": [
+        "Create a coin: mint the full supply into the curve vault, open the curve."
+      ],
+      "discriminator": [
+        24,
+        30,
+        200,
+        40,
+        5,
+        28,
+        7,
+        119
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "creator"
+        },
+        {
+          "name": "global"
+        },
+        {
+          "name": "mint",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "bonding_curve",
+          "writable": true
+        },
+        {
+          "name": "sol_vault",
+          "docs": [
+            "System-owned SOL vault PDA (holds ALL of the coin's lamports; seeded rent-exempt here).",
+            "Not `init` — it stays a 0-data system account so it can sign system transfers out."
+          ],
+          "writable": true
+        },
+        {
+          "name": "curve_vault",
+          "writable": true
+        },
+        {
+          "name": "dev_ata",
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "associated_token_program"
+        },
+        {
+          "name": "system_program"
+        },
+        {
+          "name": "rent"
+        },
+        {
+          "name": "metadata",
+          "writable": true
+        },
+        {
+          "name": "metadata_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "name": "uri",
+          "type": "string"
+        },
+        {
+          "name": "sell_fee_bps",
+          "type": "u16"
+        },
+        {
+          "name": "dev_buy",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initialize",
+      "docs": [
+        "One-time: set the launchpad parameters."
+      ],
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "global",
+          "writable": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "virtual_sol",
+          "type": "u128"
+        },
+        {
+          "name": "virtual_token",
+          "type": "u128"
+        },
+        {
+          "name": "real_token",
+          "type": "u128"
+        },
+        {
+          "name": "total_supply",
+          "type": "u64"
+        },
+        {
+          "name": "fee_bps",
+          "type": "u16"
+        },
+        {
+          "name": "floor_cut_bps",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "migrate_to_raydium",
+      "docs": [
+        "The sole graduation route. Reserve a fixed floor for EVERY outstanding token,",
+        "create the canonical Raydium pool with the remaining reserves and burn all received LP."
+      ],
+      "discriminator": [
+        116,
+        139,
+        75,
+        192,
+        86,
+        63,
+        121,
+        169
+      ],
+      "accounts": [
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "bonding_curve",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "sol_vault",
+          "docs": [
+            "System-owned SOL vault PDA — the program invoke_signed's the pooled wSOL straight out of",
+            "here (no crank fronting) and pre-funds the crank cost reserve from it."
+          ],
+          "writable": true
+        },
+        {
+          "name": "curve_vault",
+          "writable": true
+        },
+        {
+          "name": "creator_coin",
+          "docs": [
+            "enforces it is the canonical ATA of (mint, creator)); not charged to the sender upfront."
+          ],
+          "writable": true
+        },
+        {
+          "name": "wsol_mint"
+        },
+        {
+          "name": "creator_wsol",
+          "docs": [
+            "canonical ATA of (wsol_mint, creator))."
+          ],
+          "writable": true
+        },
+        {
+          "name": "cp_swap_program"
+        },
+        {
+          "name": "amm_config"
+        },
+        {
+          "name": "authority"
+        },
+        {
+          "name": "pool_state",
+          "writable": true
+        },
+        {
+          "name": "token_0_mint"
+        },
+        {
+          "name": "token_1_mint"
+        },
+        {
+          "name": "lp_mint",
+          "writable": true
+        },
+        {
+          "name": "creator_lp_token",
+          "writable": true
+        },
+        {
+          "name": "token_0_vault",
+          "writable": true
+        },
+        {
+          "name": "token_1_vault",
+          "writable": true
+        },
+        {
+          "name": "create_pool_fee",
+          "writable": true
+        },
+        {
+          "name": "observation_state",
+          "writable": true
+        },
+        {
+          "name": "token_0_program"
+        },
+        {
+          "name": "token_1_program"
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "associated_token_program"
+        },
+        {
+          "name": "system_program"
+        },
+        {
+          "name": "rent"
+        }
+      ],
+      "args": [
+        {
+          "name": "open_time",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "redeem_floor",
+      "docs": [
+        "Redeem any holder's tokens at the fixed, fully backed post-migration floor.",
+        "External market buys/sells do not call this program or charge Ratchet taxes."
+      ],
+      "discriminator": [
+        115,
+        158,
+        138,
+        13,
+        72,
+        51,
+        216,
+        63
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "global"
+        },
+        {
+          "name": "mint",
+          "writable": true
+        },
+        {
+          "name": "bonding_curve",
+          "writable": true
+        },
+        {
+          "name": "sol_vault",
+          "docs": [
+            "System-owned SOL vault PDA — all of the coin's lamports (reserves + floor) live here."
+          ],
+          "writable": true
+        },
+        {
+          "name": "curve_vault",
+          "writable": true
+        },
+        {
+          "name": "user_ata",
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "associated_token_program"
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "tokens_in",
+          "type": "u64"
+        },
+        {
+          "name": "min_sol_out",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "sell",
+      "docs": [
+        "Sell `tokens_in` base tokens; receive at least `min_sol_out` lamports,",
+        "paid at max(curve price, floor price)."
+      ],
+      "discriminator": [
+        51,
+        230,
+        133,
+        164,
+        1,
+        127,
+        131,
+        173
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "global"
+        },
+        {
+          "name": "mint",
+          "writable": true
+        },
+        {
+          "name": "bonding_curve",
+          "writable": true
+        },
+        {
+          "name": "sol_vault",
+          "docs": [
+            "System-owned SOL vault PDA — all of the coin's lamports (reserves + floor) live here."
+          ],
+          "writable": true
+        },
+        {
+          "name": "curve_vault",
+          "writable": true
+        },
+        {
+          "name": "user_ata",
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "associated_token_program"
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "tokens_in",
+          "type": "u64"
+        },
+        {
+          "name": "min_sol_out",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "BondingCurve",
+      "discriminator": [
+        23,
+        183,
+        248,
+        55,
+        96,
+        216,
+        172,
+        96
+      ]
+    },
+    {
+      "name": "Global",
+      "discriminator": [
+        167,
+        232,
+        232,
+        177,
+        200,
+        108,
+        114,
+        127
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "CreateEvent",
+      "discriminator": [
+        27,
+        114,
+        169,
+        77,
+        222,
+        235,
+        99,
+        118
+      ]
+    },
+    {
+      "name": "MigrateRaydiumEvent",
+      "discriminator": [
+        91,
+        239,
+        21,
+        185,
+        154,
+        14,
+        253,
+        71
+      ]
+    },
+    {
+      "name": "TradeEvent",
+      "discriminator": [
+        189,
+        219,
+        127,
+        211,
+        78,
+        230,
+        97,
+        238
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "BadParams",
+      "msg": "bad parameters"
+    },
+    {
+      "code": 6001,
+      "name": "BadAmount",
+      "msg": "bad amount"
+    },
+    {
+      "code": 6002,
+      "name": "Complete",
+      "msg": "curve complete"
+    },
+    {
+      "code": 6003,
+      "name": "NotComplete",
+      "msg": "curve not complete"
+    },
+    {
+      "code": 6004,
+      "name": "Slippage",
+      "msg": "slippage exceeded"
+    },
+    {
+      "code": 6005,
+      "name": "Unauthorized",
+      "msg": "unauthorized"
+    },
+    {
+      "code": 6006,
+      "name": "AlreadyMigrated",
+      "msg": "coin has migrated; use Raydium or redeem_floor"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidPool",
+      "msg": "invalid Raydium pool or accounts"
+    },
+    {
+      "code": 6008,
+      "name": "InsufficientMigrationReserves",
+      "msg": "reserves cannot cover full-supply floor backing and migration costs"
+    }
+  ],
+  "types": [
+    {
+      "name": "BondingCurve",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          },
+          {
+            "name": "initial_real_token",
+            "type": "u128"
+          },
+          {
+            "name": "sell_fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "virtual_sol",
+            "type": "u128"
+          },
+          {
+            "name": "virtual_token",
+            "type": "u128"
+          },
+          {
+            "name": "real_sol",
+            "type": "u128"
+          },
+          {
+            "name": "real_token",
+            "type": "u128"
+          },
+          {
+            "name": "circulating",
+            "type": "u128"
+          },
+          {
+            "name": "floor_vault",
+            "type": "u64"
+          },
+          {
+            "name": "floor_scaled",
+            "type": "u128"
+          },
+          {
+            "name": "complete",
+            "type": "bool"
+          },
+          {
+            "name": "graduated",
+            "type": "bool"
+          },
+          {
+            "name": "raydium_pool",
+            "type": "pubkey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "dev_buy",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Global",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "virtual_sol",
+            "type": "u128"
+          },
+          {
+            "name": "virtual_token",
+            "type": "u128"
+          },
+          {
+            "name": "real_token",
+            "type": "u128"
+          },
+          {
+            "name": "total_supply",
+            "type": "u64"
+          },
+          {
+            "name": "fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "floor_cut_bps",
+            "type": "u16"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MigrateRaydiumEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool",
+            "type": "pubkey"
+          },
+          {
+            "name": "coin_tokens",
+            "type": "u64"
+          },
+          {
+            "name": "wsol_liquidity",
+            "type": "u64"
+          },
+          {
+            "name": "lp_burned",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TradeEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "is_buy",
+            "type": "bool"
+          },
+          {
+            "name": "sol_amount",
+            "type": "u64"
+          },
+          {
+            "name": "token_amount",
+            "type": "u64"
+          },
+          {
+            "name": "paid_from_floor",
+            "type": "bool"
+          },
+          {
+            "name": "clicked",
+            "type": "bool"
+          },
+          {
+            "name": "virtual_sol",
+            "type": "u128"
+          },
+          {
+            "name": "virtual_token",
+            "type": "u128"
+          },
+          {
+            "name": "real_token",
+            "type": "u128"
+          },
+          {
+            "name": "floor_vault",
+            "type": "u64"
+          },
+          {
+            "name": "floor_scaled",
+            "type": "u128"
+          },
+          {
+            "name": "complete",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ]
+}

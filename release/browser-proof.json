@@ -1,0 +1,13 @@
+{
+  "mainnetGuard": true,
+  "connectedWallet": true,
+  "disconnectedWallet": true,
+  "publicBrowserKeyStorage": false,
+  "transactionSubmissions": 0,
+  "pageErrors": [],
+  "mobileViewport": [
+    390,
+    844
+  ],
+  "horizontalOverflow": false
+}

@@ -1,0 +1,16 @@
+node_modules/
+.next/
+*.tsbuildinfo
+onchain/target/
+**/test-ledger/
+.env
+.env.*
+!.env.example
+!lovable-wiring/.env.example
+**/*keypair*.json
+**/*keypair*.bak
+**/*.bak
+**/.program-id
+.DS_Store
+release/*.so
+release/*.tar.gz

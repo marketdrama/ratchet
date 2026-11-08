@@ -1,0 +1,44 @@
+{
+  "name": "ratchet-launchpad",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev -p 3100",
+    "build": "next build",
+    "start": "next start -p 3100",
+    "test": "node --test --experimental-strip-types test/*.test.ts",
+    "typecheck": "tsc --noEmit --incremental false",
+    "test:onchain": "node --experimental-strip-types scripts/test-localnet.mjs",
+    "release:build": "node scripts/build-release.mjs",
+    "release:verify": "node scripts/verify-release.mjs",
+    "test:browser": "node scripts/browser-smoke.mjs",
+    "test:release": "node --experimental-strip-types scripts/test-localnet.mjs --release"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "0.31.1",
+    "@solana/spl-token": "0.4.9",
+    "@solana/web3.js": "1.98.4",
+    "next": "15.5.29",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.30",
+    "@types/react": "19.1.8",
+    "@types/react-dom": "19.1.6",
+    "puppeteer": "25.1.0",
+    "typescript": "5.8.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "postcss": "8.5.32",
+      "toml": "5.0.1",
+      "jayson": "5.0.0",
+      "bigint-buffer": "file:packages/bigint-buffer"
+    }
+  },
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=24 <25"
+  }
+}
