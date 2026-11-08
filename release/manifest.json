@@ -43,7 +43,7 @@
     "test/wallet.test.ts": "fa1f65c8ba56fd8bb26f5fdc2dbb459fbaef98b5c9c0e218a5e51bbcf326958c",
     "scripts/browser-smoke.mjs": "c1ffa42e53e5bac0637e83882d62d58a804b06897d923617297e6aafa4bf5d6c",
     "scripts/build-release.mjs": "41969710bebacb8324368ca450bb41aa9c99a6777a242c2ceabba40044f19853",
-    "scripts/mainnet-preflight.mjs": "0d0876aea75a41bf81573923668b296c6cb92f60d27e6998ee1502e00157b165",
+    "scripts/mainnet-preflight.mjs": "9c5dc3c306d25f78b282a0fad559e3fae2cc7c91d1010874570fb825dd94c8f4",
     "scripts/pin-metadata.mjs": "c683903c804ac3364206281866c4663a2378d0b2e868ae8e24b42ca1e7f63ceb",
     "scripts/sync-lovable.mjs": "c81e8eb55af078dd086e6a21f7af77ffba54c920c1538047f1370c494a3e8be0",
     "scripts/test-localnet.mjs": "d986fc3e8be7f7b9e223422af97d311914ca1fdd847499776da19d57e6e92d04",

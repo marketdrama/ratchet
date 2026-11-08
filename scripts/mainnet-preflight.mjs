@@ -18,9 +18,22 @@ const config=accounts[4].data;
 // create_pool_fee is the fourth (offset 36); verified against Raydium states/config.rs.
 const poolFee=config.readBigUInt64LE(36);
 const [programRent,dataRent,bufferRent]=await Promise.all([conn.getMinimumBalanceForRentExemption(36),conn.getMinimumBalanceForRentExemption(45+allocation),conn.getMinimumBalanceForRentExemption(37+bytes)]);
+// Loader-v3 deploy refunds the buffer to the payer BEFORE creating ProgramData.
+// The CLI funds the buffer with dataRent; do not add it again to peak funding.
+const sizes={global:101,mint:82,bondingCurve:483,curveTokenAccount:165,creatorTokenAccount:165,solVault:0,metadata:607};
+const rents=Object.fromEntries(await Promise.all(Object.entries(sizes).map(async([key,size])=>[key,await conn.getMinimumBalanceForRentExemption(size)])));
+const coinRent=Object.entries(rents).filter(([key])=>key!=='global').reduce((sum,[,rent])=>sum+rent,0);
+const metadataCreateFee=10_000_000; // current Metaplex published protocol fee; separate from rent.
+const baseRent=programRent+dataRent+rents.global;
+const scenarios=[0,1,5,10].map(tokens=>({tokens,accountRentSOL:(baseRent+tokens*coinRent)/1e9,
+  metadataFeesSOL:tokens*metadataCreateFee/1e9,totalExcludingNetworkFeesAndDevBuysSOL:(baseRent+tokens*(coinRent+metadataCreateFee))/1e9}));
 const result={checkedAtUTC:new Date().toISOString(),readOnly:true,program:program.toBase58(),programExists:!!accounts[0],
   admin:admin.toBase58(),adminSOL:(accounts[1]?.lamports??0)/1e9,recordedDeployer:recordedDeployer.toBase58(),deployerSOL:(accounts[2]?.lamports??0)/1e9,
   binaryBytes:bytes,reviewedAllocationBytes:allocation,programRentSOL:programRent/1e9,programDataRentSOL:dataRent/1e9,
-  transientBufferRentSOL:bufferRent/1e9,conservativePeakDeployRentSOL:(programRent+dataRent+bufferRent)/1e9,
+  bufferMinimumRentSOL:bufferRent/1e9,bufferFundedSOL:dataRent/1e9,
+  peakDeployRentSOL:(programRent+dataRent)/1e9,bufferReusedForProgramData:true,
+  globalRentSOL:rents.global/1e9,perCoinRentLamports:rents,perCoinRentSOL:coinRent/1e9,
+  metadataCreateFeeSOL:metadataCreateFee/1e9,perCoinIncludingMetadataFeeSOL:(coinRent+metadataCreateFee)/1e9,
+  earlyLaunchScenarios:scenarios,
   raydiumConfig:a.ammConfig.toBase58(),raydiumCreatePoolFeeLamports:poolFee.toString(),raydiumPoolCreationDisabled:config[9]!==0};
 writeFileSync('release/mainnet-preflight.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));

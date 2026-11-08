@@ -53,6 +53,14 @@ Browser proof: build with mainnet env/guard=false, start on port 3310, run `pnpm
 Install its isolated browser once with `pnpm exec puppeteer browsers install chrome` when absent.
 No production wallet is involved in that test. The true Lovable app still needs separate integration.
 
+## Current funding estimate — corrected
+
+The earlier 4.16 SOL estimate double-counted the deployment buffer. Loader-v3 reuses it for ProgramData.
+Program/global rent is ~2.08364 SOL. Each coin adds ~0.01153 SOL rent + 0.01 SOL Metaplex fee, paid by its
+creator. Program + ten self-funded launches, no dev buys/graduations: ~2.29896 SOL before network fees;
+2.5 SOL is a practical starting on-chain budget. These balances are not charged daily. See
+DEPLOY_MAINNET.md and the refreshed release/mainnet-preflight.json. RPC/hosting/audit costs are separate.
+
 ## Next / what remains
 
 1. Independent Solana audit of v4, including floor liabilities and migration.

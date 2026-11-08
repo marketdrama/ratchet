@@ -796,3 +796,19 @@ funded only on loopback, and need no personal wallet. Release verification rejec
 mainnet bytecode. Added read-only live mainnet rent/config preflight; current 409600-byte allocation
 needs ~2.08248 SOL final program rent, with ~2.07705 SOL transient buffer rent (~4.15953 SOL conservative
 peak before transaction fees/margin). No mainnet tx; both recorded wallets remain unfunded.
+
+
+## 2026-11-09 — researched and corrected early-launch rent budget
+
+User asked about zero to ten launches in the first days. Checked live mainnet rent, official Agave 2.2.1
+CLI/loader deployment implementation, current Metaplex fee schedule and Raydium fee docs. Found and
+corrected my previous 4.16-SOL estimate: the loader drains the buffer to the payer BEFORE ProgramData
+funding, so adding both rents double-counts the same SOL. No program/runtime changes.
+
+Updated read-only mainnet-preflight estimator and deploy/handoff docs. Program+ProgramData rent is
+2.08247996 SOL; global 0.00116332. Per-coin rent 0.01153160 (metadata allocation is 607 bytes), plus separate
+0.01 SOL Metaplex create fee. Base+10 self-funded coins: 2.29895928 SOL excluding tx/priority fees, optional
+dev buys and graduation. Recommended 2.5 SOL starting budget for that limited scope. Other creators pay
+their own create costs; no daily rent charge on exempt accounts. Graduation reserve is collected from
+curve reserves, not a launch-day fee for every token. Sources linked in DEPLOY_MAINNET.md. Mainnet still
+not deployed; external audit/build/signing/frontend gates remain unchanged.

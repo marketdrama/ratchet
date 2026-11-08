@@ -1,5 +1,5 @@
 {
-  "checkedAtUTC": "2026-11-08T23:04:35.780Z",
+  "checkedAtUTC": "2026-11-08T23:19:10.843Z",
   "readOnly": true,
   "program": "35UELzdncBr15qztq55Kct3sZvmXnn5D5e5rpGiHgMuC",
   "programExists": false,
@@ -11,8 +11,49 @@
   "reviewedAllocationBytes": 409600,
   "programRentSOL": 0.00083312,
   "programDataRentSOL": 2.08164684,
-  "transientBufferRentSOL": 2.07705452,
-  "conservativePeakDeployRentSOL": 4.15953448,
+  "bufferMinimumRentSOL": 2.07705452,
+  "bufferFundedSOL": 2.08164684,
+  "peakDeployRentSOL": 2.08247996,
+  "bufferReusedForProgramData": true,
+  "globalRentSOL": 0.00116332,
+  "perCoinRentLamports": {
+    "global": 1163320,
+    "mint": 1066800,
+    "bondingCurve": 3103880,
+    "curveTokenAccount": 1488440,
+    "creatorTokenAccount": 1488440,
+    "solVault": 650240,
+    "metadata": 3733800
+  },
+  "perCoinRentSOL": 0.0115316,
+  "metadataCreateFeeSOL": 0.01,
+  "perCoinIncludingMetadataFeeSOL": 0.0215316,
+  "earlyLaunchScenarios": [
+    {
+      "tokens": 0,
+      "accountRentSOL": 2.08364328,
+      "metadataFeesSOL": 0,
+      "totalExcludingNetworkFeesAndDevBuysSOL": 2.08364328
+    },
+    {
+      "tokens": 1,
+      "accountRentSOL": 2.09517488,
+      "metadataFeesSOL": 0.01,
+      "totalExcludingNetworkFeesAndDevBuysSOL": 2.10517488
+    },
+    {
+      "tokens": 5,
+      "accountRentSOL": 2.14130128,
+      "metadataFeesSOL": 0.05,
+      "totalExcludingNetworkFeesAndDevBuysSOL": 2.19130128
+    },
+    {
+      "tokens": 10,
+      "accountRentSOL": 2.19895928,
+      "metadataFeesSOL": 0.1,
+      "totalExcludingNetworkFeesAndDevBuysSOL": 2.29895928
+    }
+  ],
   "raydiumConfig": "D4FPEruKEHrG5TenZ2mpDGEfu1iUvTiqBxvpU8HLBvC2",
   "raydiumCreatePoolFeeLamports": "150000000",
   "raydiumPoolCreationDisabled": false

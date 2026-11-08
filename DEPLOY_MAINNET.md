@@ -33,6 +33,29 @@ Default loader-v3 allocation may exceed bytecode size: `--max-len` makes the all
 creation fees/rent must be read from live Raydium config/RPC; old fixed ~0.4-SOL rent estimates are stale.
 The contract retains 0.3 SOL for migration costs and rewards unused margin to the caller.
 
+## Corrected early-launch costs (2026-11-09)
+
+The previous ~4.16 SOL peak estimate double-counted the deployment buffer. In loader-v3, the buffer's
+SOL is returned to the payer before ProgramData is created. For this 409600-byte allocation, current
+mainnet RPC rent is **2.08247996 SOL total for Program + ProgramData**, not 4.16 SOL. Global initialization
+adds **0.00116332 SOL**. Keep a margin for transaction/priority fees and retries.
+
+Per new coin, current account rent is **0.01153160 SOL** (82-byte mint, 483-byte curve, two 165-byte ATAs,
+0-byte SOL vault and 607-byte metadata). Metaplex creation charges a separate **0.01 SOL** protocol fee:
+**0.02153160 SOL per coin**, plus transaction fees and any optional creator buy. The creator/payer signs
+and pays these costs; the platform does not automatically subsidize creators.
+
+With no developer buys or graduations, totals including one-time program/global rent and metadata fees:
+0 coins = 2.08364328 SOL; 1 = 2.10517488; 5 = 2.19130128; 10 = 2.29895928. **2.5 SOL** is a practical
+initial on-chain budget for this scope with modest fee/retry margin. Audit, RPC, hosting and multisig
+setup costs are separate. Rent-exempt balances are not daily subscriptions; no tokens means no per-token
+accounts to fund. Raydium costs arise only at graduation, paid from curve reserves via the 0.3 SOL reserve.
+
+Sources: [loader implementation](https://github.com/anza-xyz/agave/blob/v2.2.1/programs/bpf_loader/src/lib.rs#L662-L688),
+[current RPC rent method](https://solana.com/docs/rpc/http/getminimumbalanceforrentexemption),
+[Metaplex fee schedule](https://github.com/metaplex-foundation/disclosures/blob/main/protocol-fees.md).
+Refresh `release/mainnet-preflight.json` before funding or deployment; rent schedules and protocol fees can change.
+
 ## Deploy the reviewed binary
 
 ```sh
