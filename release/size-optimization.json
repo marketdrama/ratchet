@@ -1,0 +1,66 @@
+{
+  "baselineBytes": 408704,
+  "selected": "size-z-thin",
+  "selectedBytes": 362208,
+  "reductionBytes": 46496,
+  "reductionPercent": 11.376448481052302,
+  "overflowChecks": true,
+  "rustSourceUnchanged": true,
+  "rustSourceSha256": "e81f369c11eccad507edf4845d6677445cbac383f66faea6fe4a52d35ee391cc",
+  "idlUnchanged": true,
+  "featuresRemoved": [],
+  "candidates": [
+    {
+      "name": "original",
+      "optLevel": 3,
+      "lto": "fat",
+      "codegenUnits": 1,
+      "bytes": 408704,
+      "sha256": "85a8daec2c5fec1c360fec6b56f51572026bf649167589f038dae011e6f3c17e"
+    },
+    {
+      "name": "size-s",
+      "optLevel": "s",
+      "lto": "fat",
+      "codegenUnits": 1,
+      "bytes": 386456,
+      "sha256": "16def7e29fe4397b2440638b2892148c98f16d97538d00d8832f8d706ce06773"
+    },
+    {
+      "name": "size-z",
+      "optLevel": "z",
+      "lto": "fat",
+      "codegenUnits": 1,
+      "bytes": 366808,
+      "sha256": "9c629b7f91efe9bba95e758282b4e344ce61563b7b7c529f97a20fc50f47b0c0"
+    },
+    {
+      "name": "size-z-thin",
+      "optLevel": "z",
+      "lto": "thin",
+      "codegenUnits": 1,
+      "bytes": 362208,
+      "sha256": "d189c60479f1eac0236acf5658437618884dfa0a37c483b64e34d0d260f49c4c"
+    },
+    {
+      "name": "size-z-16-units",
+      "optLevel": "z",
+      "lto": "fat",
+      "codegenUnits": 16,
+      "bytes": 384288,
+      "sha256": "7cda6cc5132cf3383d05b94fe0e51f43b33232ac9c920681b162141d72e30391"
+    }
+  ],
+  "baselineProgramDataRentSOL": 2.08164684,
+  "optimizedProgramDataRentSOL": 1.85276236,
+  "programDataRentSavingSOL": 0.22888448,
+  "validation": {
+    "unitTestsPassed": 23,
+    "typecheckPassed": true,
+    "exactBytecodeIntegrationPassed": true,
+    "migrationComputeUnits": 272580,
+    "migrationComputeLimit": 600000,
+    "programSourceUnchanged": true,
+    "idlByteForByteUnchanged": true
+  }
+}

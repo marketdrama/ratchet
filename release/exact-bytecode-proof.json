@@ -2,14 +2,16 @@
   "kind": "mainnet-bytecode-local-validator",
   "mainnetDependenciesCloned": true,
   "program": "35UELzdncBr15qztq55Kct3sZvmXnn5D5e5rpGiHgMuC",
-  "mint": "7Rzx8MnV1qYsDMXBvpkTtd4dbfj9MC3oPYDjPKP4LHrG",
-  "pool": "JCXnsodAhYmCawQZFL3eMAR1wNGpF4BYie4ZqY2qjP7a",
-  "migrationSignature": "2LVD63rAfhF9jTb2KdHkKHEukgDJw2hfw3xDgNWaDnUWtj4db6K34StqmkJnrwXAduzuzc983RYPnqTm89Na3LL8",
-  "artifactSha256": "85a8daec2c5fec1c360fec6b56f51572026bf649167589f038dae011e6f3c17e",
+  "mint": "8hFHMZwfJu5CXCfk7bDuSKd6qG5tGt9c2uMihE64hzcx",
+  "pool": "CaTNK63nL95p4DGXbRHUMPg7pWfk9jXSUxhWnnEXbydG",
+  "migrationSignature": "2m8W251Y4sUeQ2rpguV51U8q5vgcP7MGbYjuiNNkzKfJwEdFHozjVMxZ65BK2Sko71JDNDLUFf5V111uNCBVSoLW",
+  "artifactSha256": "d189c60479f1eac0236acf5658437618884dfa0a37c483b64e34d0d260f49c4c",
   "productionParams": true,
   "engineParity": true,
   "metadataImmutable": true,
   "lpSupply": "0",
   "fullSupplyFloorBacking": true,
-  "redemption": true
+  "redemption": true,
+  "migrationComputeUnits": 272580,
+  "migrationComputeLimit": 600000
 }

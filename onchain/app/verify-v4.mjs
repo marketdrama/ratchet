@@ -85,12 +85,18 @@ assert.equal(vaultStart-await c.conn.getBalance(c.pda('sol',mint.publicKey)),Num
 assert.equal((await getMint(c.conn,mint.publicKey)).supply,supply-tokens);
 assert.ok(BigInt(chain.floorVault.toString())*SCALE>=BigInt(chain.circulating.toString())*BigInt(chain.floorScaled.toString()));
 console.log('REDEMPTION: exact payout, burn, remaining backing verified');
+const migrationTx=await c.conn.getTransaction(sig,{commitment:'confirmed',maxSupportedTransactionVersion:0});
+assert.ok(migrationTx?.meta&&!migrationTx.meta.err,'Migration transaction metadata missing');
+const computeUnits=migrationTx.meta.computeUnitsConsumed;
+assert.ok(computeUnits>0 && computeUnits<=600_000,'Migration exceeds client compute limit');
+console.log('MIGRATION COMPUTE UNITS:',computeUnits,'/ 600000');
 const {writeFileSync,readFileSync}=await import('node:fs');const {createHash}=await import('node:crypto');
 writeFileSync('release/'+(process.env.EXACT_RELEASE?'exact-bytecode-proof':'local-proof')+'.json',JSON.stringify({
   kind:process.env.EXACT_RELEASE?'mainnet-bytecode-local-validator':'test-admin-bytecode-local-validator',
   mainnetDependenciesCloned:true,program:c.pid.toBase58(),mint:mint.publicKey.toBase58(),pool:a.poolState.toBase58(),migrationSignature:sig,
   artifactSha256:createHash('sha256').update(readFileSync('onchain/target/deploy/ratchet_curve.so')).digest('hex'),
   productionParams:true,engineParity:true,metadataImmutable:true,lpSupply:'0',fullSupplyFloorBacking:true,redemption:true,
+  migrationComputeUnits:computeUnits,migrationComputeLimit:600_000,
 },null,2)+'\n');
 const {spawnSync}=await import('node:child_process');
 const cli=(env)=>spawnSync(process.execPath,['--experimental-strip-types','onchain/app/launch-mainnet.mjs'],{

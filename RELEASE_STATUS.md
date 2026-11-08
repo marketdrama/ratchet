@@ -48,10 +48,18 @@ hosted frontend.** No mainnet transaction has been sent.
 
 The local harness uses a public deterministic test-only key; it does not require any personal wallet.
 
+## Binary optimization
+
+The release profile now uses opt-level `z`, thin LTO and one codegen unit, with overflow checks retained.
+The binary shrank from 408704 to 362208 bytes (11.38%). The Rust program source and generated IDL are
+unchanged; no features, logging or financial checks were removed. Four alternative profiles were measured;
+see `release/size-optimization.json`. The mainnet ProgramData deposit quote fell from 2.08164684 to
+1.85276236 SOL (saving 0.22888448 SOL). Use the optimized artifact hash in the current release manifest.
+
 ## Current external state and remaining gates
 
 Read-only mainnet RPC check: target program `35UELz…` does not exist; ADMIN `3vkTXSV3…` and recorded
-deployer `2XPJm6qc…` each have 0 SOL. A private signing wallet for ADMIN, funded deployer and reliable
+deployer `2XPJm6qc…` have 0 SOL and 0.1 SOL respectively in the latest RPC snapshot. A private signing wallet for ADMIN, funded deployer and reliable
 RPC are needed. Actual balances, fees and rent must be rechecked at deployment.
 
 No independent audit exists. Docker/solana-verify is not installed, so public isolated-build verification

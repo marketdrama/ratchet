@@ -822,3 +822,34 @@ and runbook; removed `--final` from the active showcase steps. No program code o
 No mainnet deployment/closure occurred. Keep actual upgrade-authority signer accessible (separate from
 ADMIN); future closure recovers ProgramData lamports only and disables redemption. Coin positions must
 be settled before shutdown; coin vaults and burned-LP liquidity are not refunded by closing the program.
+
+
+## 2026-11-09 — compiler-only binary size reduction (all features retained)
+
+User requested a smaller binary without feature removal. Established baseline artifact (408704 bytes,
+SHA 85a8daec…), unchanged Rust source/IDL, passing 23 unit/property tests and release verification. Kept
+baseline copies outside the workspace release during experiments. Compared four alternative Cargo release
+profiles with the same locked dependencies and pinned SBF compiler tools v1.44:
+
+- opt-level s / fat LTO / 1 codegen unit: 386456 bytes.
+- opt-level z / fat LTO / 1 unit: 366808 bytes.
+- opt-level z / thin LTO / 1 unit: **362208 bytes — selected**.
+- opt-level z / fat LTO / 16 units: 384288 bytes.
+
+Changed only onchain/Cargo.toml release optimization settings (z, thin); overflow-checks=true retained.
+No instructions, features, logs, financial checks, program source or account/IDL layout removed or changed.
+The resulting default-mainnet artifact reproduces the experimental candidate byte-for-byte, SHA-256
+**d189c60479f1eac0236acf5658437618884dfa0a37c483b64e34d0d260f49c4c**. Size reduction: 46496 bytes / 11.38%.
+
+Validation: 23/23 tests and TypeScript pass. Exact optimized binary on isolated validator against cloned
+mainnet Raydium+Metaplex passes production-parameter engine/chain parity, metadata, slippage, substitute
+accounts/legacy-route rejection, capital-free migration, LP=0 and retained-floor redemption. Migration
+used **272580 CU / 600000 limit**. Existing buy/create/sell/redeem transaction budgets also pass. Added CU
+telemetry/assertion to the integration proof; source and IDL match baseline exactly. No public writes.
+
+Current mainnet RPC: 364544-byte reviewed allocation, ProgramData rent **1.85276236 SOL** versus prior
+2.08164684 SOL; saves **0.22888448 SOL**. Program+global rent 1.8547588; program plus ten self-funded coin
+launches (no dev buys/graduation/network fees) 2.0700748. Updated runbook max-len, cost docs/handoff and
+release snapshots. Latest wallet read: ADMIN0, recorded deployer0.1 SOL; mainnet target still absent.
+Showcase remains upgradeable for later ProgramData rent recovery. Evidence: release/size-optimization.json,
+exact-bytecode-proof.json and current manifest. External audit/deploy/frontend gates remain unchanged.

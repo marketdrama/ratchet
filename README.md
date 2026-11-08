@@ -28,6 +28,10 @@ For example, a 1 SOL creator buy followed by 5 SOL buys needs 780 SOL of follow-
 this engine. Quotes enforce the solvency cap and a default 1% minimum-output tolerance. Do not weaken the
 cap to reproduce the old budget estimates.
 
+The current artifact is 362208 bytes, reduced 11.38% through compiler settings only. All features,
+program source, IDL and overflow protection are retained. Current ProgramData rent quote: ~1.85276 SOL;
+see `release/size-optimization.json` and re-query rent before deployment.
+
 ## Develop and verify
 
 Node 24, pnpm, Solana CLI/cargo-build-sbf 2.2.1 (platform tools v1.44), Anchor CLI 0.31.1.

@@ -1,19 +1,19 @@
 {
-  "checkedAtUTC": "2026-11-08T23:19:10.843Z",
+  "checkedAtUTC": "2026-11-08T23:46:02.349Z",
   "readOnly": true,
   "program": "35UELzdncBr15qztq55Kct3sZvmXnn5D5e5rpGiHgMuC",
   "programExists": false,
   "admin": "3vkTXSV3LG7ZrZt1SWMnEYBjNBiYAg168fbEV3Q6skTi",
   "adminSOL": 0,
   "recordedDeployer": "2XPJm6qcPurJJ31jHrJZTKYoBQS9HkAtt1NyMnizXDWq",
-  "deployerSOL": 0,
-  "binaryBytes": 408704,
-  "reviewedAllocationBytes": 409600,
+  "deployerSOL": 0.1,
+  "binaryBytes": 362208,
+  "reviewedAllocationBytes": 364544,
   "programRentSOL": 0.00083312,
-  "programDataRentSOL": 2.08164684,
-  "bufferMinimumRentSOL": 2.07705452,
-  "bufferFundedSOL": 2.08164684,
-  "peakDeployRentSOL": 2.08247996,
+  "programDataRentSOL": 1.85276236,
+  "bufferMinimumRentSOL": 1.84085484,
+  "bufferFundedSOL": 1.85276236,
+  "peakDeployRentSOL": 1.85359548,
   "bufferReusedForProgramData": true,
   "globalRentSOL": 0.00116332,
   "perCoinRentLamports": {
@@ -31,27 +31,27 @@
   "earlyLaunchScenarios": [
     {
       "tokens": 0,
-      "accountRentSOL": 2.08364328,
+      "accountRentSOL": 1.8547588,
       "metadataFeesSOL": 0,
-      "totalExcludingNetworkFeesAndDevBuysSOL": 2.08364328
+      "totalExcludingNetworkFeesAndDevBuysSOL": 1.8547588
     },
     {
       "tokens": 1,
-      "accountRentSOL": 2.09517488,
+      "accountRentSOL": 1.8662904,
       "metadataFeesSOL": 0.01,
-      "totalExcludingNetworkFeesAndDevBuysSOL": 2.10517488
+      "totalExcludingNetworkFeesAndDevBuysSOL": 1.8762904
     },
     {
       "tokens": 5,
-      "accountRentSOL": 2.14130128,
+      "accountRentSOL": 1.9124168,
       "metadataFeesSOL": 0.05,
-      "totalExcludingNetworkFeesAndDevBuysSOL": 2.19130128
+      "totalExcludingNetworkFeesAndDevBuysSOL": 1.9624168
     },
     {
       "tokens": 10,
-      "accountRentSOL": 2.19895928,
+      "accountRentSOL": 1.9700748,
       "metadataFeesSOL": 0.1,
-      "totalExcludingNetworkFeesAndDevBuysSOL": 2.29895928
+      "totalExcludingNetworkFeesAndDevBuysSOL": 2.0700748
     }
   ],
   "raydiumConfig": "D4FPEruKEHrG5TenZ2mpDGEfu1iUvTiqBxvpU8HLBvC2",

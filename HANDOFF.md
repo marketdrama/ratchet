@@ -6,7 +6,7 @@ full history is preserved in BUILD_LOG.md. Start with RELEASE_STATUS.md and DEPL
 ## Where we are
 
 v4 release candidate implemented. **No mainnet deployment/public trading.** Read-only RPC confirms the
-mainnet target is absent and the two recorded wallets are at zero SOL. No independent audit yet.
+mainnet target is absent and ADMIN is at 0 SOL and the recorded deployer at 0.1 SOL in the latest snapshot. No independent audit yet.
 
 - Program ID: `35UELzdncBr15qztq55Kct3sZvmXnn5D5e5rpGiHgMuC`.
 - Mainnet ADMIN: `3vkTXSV3LG7ZrZt1SWMnEYBjNBiYAg168fbEV3Q6skTi`; signs production global initialization.
@@ -31,13 +31,20 @@ universal ~86 SOL promise or weaken the cap to reproduce it.
 ## Deployment decision — temporary showcase (user, 2026-11-09)
 
 Retain upgrade authority for the showcase. **Do not run `set-upgrade-authority --final`.** The owner
-intends to close the program afterward and reclaim the ProgramData balance (~2.08165 SOL at the last
+intends to close the program afterward and reclaim the ProgramData balance (~1.85276 SOL at the last
 rent quote). Keep the actual upgrade-authority signer accessible; ADMIN and upgrade authority are
 separate roles. Label the showcase upgradeable/temporary rather than immutable.
 
 Shutdown requires settling showcase positions first: closure disables the program and floor redemption.
 Closing returns the ProgramData deposit, not coin vault funds or burned-LP liquidity. This is a future
 shutdown plan, not an instruction to close anything now; mainnet has not been deployed.
+
+## Binary size optimization
+
+Compiler-only change: `opt-level="z"`, `lto="thin"`, codegen units 1, overflow checks still enabled.
+Binary 408704 → 362208 bytes (11.38% smaller); Rust source and IDL unchanged, no features removed.
+ProgramData deposit 2.08164684 → 1.85276236 SOL at the current quoted rent. See
+release/size-optimization.json and the refreshed exact-bytecode proof; use the new release manifest/hash.
 
 ## Technical fixes delivered
 
@@ -67,9 +74,9 @@ No production wallet is involved in that test. The true Lovable app still needs 
 ## Current funding estimate — corrected
 
 The earlier 4.16 SOL estimate double-counted the deployment buffer. Loader-v3 reuses it for ProgramData.
-Program/global rent is ~2.08364 SOL. Each coin adds ~0.01153 SOL rent + 0.01 SOL Metaplex fee, paid by its
-creator. Program + ten self-funded launches, no dev buys/graduations: ~2.29896 SOL before network fees;
-2.5 SOL is a practical starting on-chain budget. These balances are not charged daily. See
+Program/global rent is ~1.85476 SOL after size optimization. Each coin adds ~0.01153 SOL rent + 0.01 SOL Metaplex fee, paid by its
+creator. Program + ten self-funded launches, no dev buys/graduations: ~2.07007 SOL before network fees;
+2.3 SOL is a practical starting on-chain budget. These balances are not charged daily. See
 DEPLOY_MAINNET.md and the refreshed release/mainnet-preflight.json. RPC/hosting/audit costs are separate.
 
 ## Next / what remains
