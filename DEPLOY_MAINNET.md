@@ -120,18 +120,23 @@ migration exits without spending. `redeem` uses exact floor output as min-out. V
 on a dedicated reviewed test deployment/config before public release; never contaminate production global
 settings to make a cheap smoke test.
 
-## Secure upgrade authority, then enable clients
+## Retain upgrade authority for the showcase
 
-After auditing, verifying the deployed bytecode and testing the intended flow, choose an explicitly
-approved upgrade policy: reviewed public multisig or immutability. Setting `--final` is irreversible and
-must be a deliberate owner action; local preparation never runs it automatically.
+**User decision, 2026-11-09: temporary showcase, then close and reclaim ProgramData rent.** Keep upgrade
+authority under the owner's control and retain its signing key. ADMIN (initialization) and upgrade
+authority (deployment/closure) are separate roles. Verify the deployed authority with `solana program show`.
+Do not run `set-upgrade-authority --final`; it would permanently remove the normal ProgramData-close path.
+The program must be described as upgradeable and temporary, not immutable. Immutable token metadata is
+separate from program upgradeability.
 
-```sh
-solana program set-upgrade-authority <program> --new-upgrade-authority <MULTISIG_VAULT> \
-  --skip-new-upgrade-authority-signer-check --keypair /secure/deployer.json --url "$RPC_URL"
-# OR, only after the deliberate final decision:
-solana program set-upgrade-authority <program> --final --keypair /secure/deployer.json --url "$RPC_URL"
-```
+After the showcase, settle coin positions and ensure nobody depends on the program for floor redemption.
+Closing disables those instructions and does not refund coin-vault balances, Metaplex/transaction fees,
+or burned-LP liquidity. There is no admin vault withdrawal/close route in v4. The latest reclaimable
+ProgramData deposit quote is ~2.08164684 SOL; query its actual lamports at shutdown. Smaller accounts are
+not automatically refunded by program closure.
+
+No closure is authorized for execution now; the program is not deployed. A future wind-down must verify
+the correct cluster, ProgramData address, current upgrade-authority signer, recipient and settled positions.
 
 Configure `NEXT_PUBLIC_RPC_URL`, `NEXT_PUBLIC_SOLANA_CLUSTER=mainnet-beta`; finally set
 `NEXT_PUBLIC_ENABLE_MAINNET_TRADING=true` and rebuild. Vite uses the corresponding `VITE_*` vars in the

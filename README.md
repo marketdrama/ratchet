@@ -7,6 +7,9 @@ reserve continues to back every outstanding token at the fixed graduation floor.
 **Not deployed to mainnet. Unaudited.** See [MAINNET_CHECKLIST.md](MAINNET_CHECKLIST.md) and
 [DEPLOY_MAINNET.md](DEPLOY_MAINNET.md). Historical v2/v3 deployments are incompatible with this release.
 
+**Deployment plan:** temporary upgradeable showcase, followed by wind-down and ProgramData rent recovery.
+Upgrade authority stays with the owner; do not finalize. See the shutdown conditions in the runbook.
+
 ## Mechanics
 
 - Buy tax: 1.25%; creator-selected curve sell tax: 1.25–5%. Both go entirely to the floor vault.

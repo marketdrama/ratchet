@@ -24,7 +24,8 @@ Technical release preparation and public mainnet launch are distinct gates. See 
 - [ ] Deploy the exact reviewed binary; initialize production globals; compare deployed bytecode.
 - [ ] Real mainnet migration/redemption smoke proof on a separately reviewed test deployment/config.
 - [ ] Independent source/build verification (Docker/solana-verify or matching isolated toolchain).
-- [ ] Owner chooses and executes multisig/immutable upgrade policy after validation.
+- [x] Owner chose retained upgrade authority for a temporary showcase; do not finalize.
+- [ ] Secure and verify the upgrade-authority signer; settle positions before future program closure.
 - [ ] Import v4 kit into actual Lovable app, verify wallet/quotes/metadata/migration/redemption there.
 - [ ] Enable public mainnet guard last and publish program, source, artifact hash and audit status.
 

@@ -812,3 +812,13 @@ dev buys and graduation. Recommended 2.5 SOL starting budget for that limited sc
 their own create costs; no daily rent charge on exempt accounts. Graduation reserve is collected from
 curve reserves, not a launch-day fee for every token. Sources linked in DEPLOY_MAINNET.md. Mainnet still
 not deployed; external audit/build/signing/frontend gates remain unchanged.
+
+
+## 2026-11-09 — user chose upgradeable showcase with later rent recovery
+
+User clarified that ProgramData rent is their focus and chose to retain upgrade authority, then close
+the program after the showcase. Recorded that decision in the handoff, release status, README, checklist
+and runbook; removed `--final` from the active showcase steps. No program code or deployed state changed.
+No mainnet deployment/closure occurred. Keep actual upgrade-authority signer accessible (separate from
+ADMIN); future closure recovers ProgramData lamports only and disables redemption. Coin positions must
+be settled before shutdown; coin vaults and burned-LP liquidity are not refunded by closing the program.

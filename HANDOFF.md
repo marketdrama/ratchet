@@ -28,6 +28,17 @@ Floor-capped issuance can bind during ordinary seeded trading. Costs depend on t
 1 SOL seed plus 5 SOL buys needs 780 SOL follow-up in the no-sells model. Do not restore the false
 universal ~86 SOL promise or weaken the cap to reproduce it.
 
+## Deployment decision — temporary showcase (user, 2026-11-09)
+
+Retain upgrade authority for the showcase. **Do not run `set-upgrade-authority --final`.** The owner
+intends to close the program afterward and reclaim the ProgramData balance (~2.08165 SOL at the last
+rent quote). Keep the actual upgrade-authority signer accessible; ADMIN and upgrade authority are
+separate roles. Label the showcase upgradeable/temporary rather than immutable.
+
+Shutdown requires settling showcase positions first: closure disables the program and floor redemption.
+Closing returns the ProgramData deposit, not coin vault funds or burned-LP liquidity. This is a future
+shutdown plan, not an instruction to close anything now; mainnet has not been deployed.
+
 ## Technical fixes delivered
 
 Pinned external CPI + canonical Raydium accounts; removed ADMIN release, competing internal graduation
@@ -68,7 +79,8 @@ DEPLOY_MAINNET.md and the refreshed release/mainnet-preflight.json. RPC/hosting/
 3. Publish reviewed source and obtain independent isolated build verification (Docker unavailable here).
 4. Deploy exact reviewed artifact, production initialize, verify deployed bytecode and run reviewed
    mainnet smoke proof on an isolated test deployment/config; do not initialize production with test params.
-5. Owner chooses/executes public multisig or immutability after testing. Never automatically run `--final`.
+5. Retain and secure the upgrade-authority signer for the temporary showcase; never run `--final`.
+   After the showcase, settle positions and verify closure conditions before reclaiming ProgramData rent.
 6. Import matching v4 kit into actual Lovable app; verify it there, then enable public mainnet guard last.
 
 Current script: `onchain/app/launch-mainnet.mjs` (`ACTION=preflight` by default); full commands are in

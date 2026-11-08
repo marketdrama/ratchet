@@ -57,8 +57,9 @@ RPC are needed. Actual balances, fees and rent must be rechecked at deployment.
 No independent audit exists. Docker/solana-verify is not installed, so public isolated-build verification
 has not been performed. The real Lovable app is outside this workspace; importing the kit does not prove
 its hosted wallet/trade flows. A working metadata pinning account and real pinned assets remain owner
-configuration. Real mainnet migration/redemption has not been performed. The owner must choose and
-execute a multisig or immutable upgrade policy after review and validation.
+configuration. Real mainnet migration/redemption has not been performed. The owner has chosen a temporary showcase with retained upgrade authority and future ProgramData rent
+recovery. Do not finalize the program. Verify custody of the upgrade-authority signer and settle
+showcase positions before a future closure; it disables redemption and does not refund coin vaults.
 
 These are genuine external/public-launch gates, not completed items. Do not enable public trading until
 MAINNET_CHECKLIST.md is satisfied. Persistent indexing is a scaling follow-up; this client polls a reliable
