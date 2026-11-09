@@ -1009,3 +1009,10 @@ pushed main and configured origin/upstream. Initial published commit5721cda. Fin
 scan covers7commits (~753KB),0findings; focused Lovable ZIP checked21files,0privatepaths. API token stayed
 inside the git credential helper/process memory and was never printed, written to source or placed in
 a command argument. Source publication does not satisfy independent audit/build attestation gates.
+
+Published prerelease v4.0.0-rc.1 with the focused Lovable ZIP:
+https://github.com/marketdrama/ratchet/releases/tag/v4.0.0-rc.1 . Anonymous API confirms public visibility,
+MIT license and main matching local1283277 at verification time. Anonymous download succeeds; ZIP42894
+bytes, SHA25608106f3189bab198835d266866826bd328442eaed7dfce339ee3c9717a35ad37, equal to local handoff.
+This pass changed documentation/packaging/publication only; protocol source/binary/IDL unchanged. No
+mainnet writes or Lovable hosted edits. Lovable may now proceed in parallel with guard disabled.

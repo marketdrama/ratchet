@@ -149,3 +149,7 @@ Publication completed: **https://github.com/marketdrama/ratchet** is public unde
 to it and main tracks origin/main. Gitleaks7-commit scan and known-private-material scan pass. Current
 Lovable guide: LOVABLE_HANDOFF.md; focused ZIP: release/ratchet-lovable-v4.zip. No credentials/keypairs
 were published. Codeberg was excluded because its current terms prohibit cryptocurrency projects.
+
+Lovable downloadable handoff:
+https://github.com/marketdrama/ratchet/releases/download/v4.0.0-rc.1/ratchet-lovable-v4.zip . Public download
+and SHA256 verified; release marked prerelease/unaudited/undeployed. Full source remains on main.
