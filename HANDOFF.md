@@ -144,3 +144,8 @@ LOVABLE_HANDOFF.md and release/ratchet-lovable-v4.zip (current21-file kit), not 
 Keep mainnet trading disabled. Audit/testing may require fixes; sync the kit if protocol/IDL changes.
 Open-source publication is authorized under the existing MIT license. Codeberg's cryptocurrency ban
 rules it out; GitHub marketdrama/ratchet is the chosen alternative. Publication outcome is logged below.
+
+Publication completed: **https://github.com/marketdrama/ratchet** is public under MIT. Local origin points
+to it and main tracks origin/main. Gitleaks7-commit scan and known-private-material scan pass. Current
+Lovable guide: LOVABLE_HANDOFF.md; focused ZIP: release/ratchet-lovable-v4.zip. No credentials/keypairs
+were published. Codeberg was excluded because its current terms prohibit cryptocurrency projects.

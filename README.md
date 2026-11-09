@@ -16,6 +16,7 @@ Lovable can build the UI now using [LOVABLE_HANDOFF.md](LOVABLE_HANDOFF.md) and 
 [lovable-wiring](lovable-wiring/README.md) kit. Keep mainnet trading disabled until the launch checklist
 passes. The v4 interface is the current integration target; audit or final testing may require fixes.
 
+Public source: [marketdrama/ratchet](https://github.com/marketdrama/ratchet).
 Source is licensed under [MIT](LICENSE). See [CONTRIBUTING.md](CONTRIBUTING.md) and
 [SECURITY.md](SECURITY.md). Public source is not an audit or proof of mainnet deployment.
 

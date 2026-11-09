@@ -26,7 +26,8 @@ Technical release preparation and public mainnet launch are distinct gates. See 
 - [ ] Deploy the exact reviewed binary; initialize production globals; compare deployed bytecode.
 - [ ] Real mainnet migration/redemption smoke proof on a separately reviewed test deployment/config.
 - [x] Two fresh isolated pinned Linux builds match (local evidence, not third-party attestation).
-- [ ] Publish reviewed source and obtain independent build attestation.
+- [x] Publish MIT-licensed v4 source: https://github.com/marketdrama/ratchet .
+- [ ] Obtain independent build attestation.
 - [x] Owner chose retained upgrade authority for a temporary showcase; do not finalize.
 - [ ] Secure and verify the upgrade-authority signer; settle positions before future program closure.
 - [ ] Import v4 kit into actual Lovable app, verify wallet/quotes/metadata/migration/redemption there.

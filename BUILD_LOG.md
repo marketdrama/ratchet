@@ -1003,3 +1003,9 @@ Publication checks: Gitleaks8.30.1 scans all6 pre-publication commits (~733KB), 
 scan of188 historical blobs finds0matches for known local wallet arrays/authenticated RPC credentials.
 Program binaries, target/node_modules, .env.operations and metadata upload key remain ignored. Contract
 source/binary/IDL unchanged; release manifest passes. No mainnet transaction or actual Lovable app edit.
+
+Publication succeeded: created public https://github.com/marketdrama/ratchet under existing MIT license,
+pushed main and configured origin/upstream. Initial published commit5721cda. Final pre-push Gitleaks
+scan covers7commits (~753KB),0findings; focused Lovable ZIP checked21files,0privatepaths. API token stayed
+inside the git credential helper/process memory and was never printed, written to source or placed in
+a command argument. Source publication does not satisfy independent audit/build attestation gates.

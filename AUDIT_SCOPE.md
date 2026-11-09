@@ -66,5 +66,5 @@ Future ProgramData closure disables redemption. Burned LP does not remove pool-h
 A showcase shutdown needs explicit position settlement; closing the program alone is not a settlement.
 v4 has no global/curve cleanup and cannot recover arbitrary coin-vault/LP balances for the owner.
 
-Mainnet target remains undeployed. No real mainnet lifecycle is claimed. Public source hosting, audit,
+Mainnet target remains undeployed. No real mainnet lifecycle is claimed. Source is published at https://github.com/marketdrama/ratchet ; audit,
 production signing/funding, live metadata pins and actual Lovable integration remain external gates.
