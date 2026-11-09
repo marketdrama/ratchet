@@ -62,5 +62,13 @@
     "migrationComputeLimit": 600000,
     "programSourceUnchanged": true,
     "idlByteForByteUnchanged": true
+  },
+  "canonicalRelease": {
+    "environment": "pinned Linux/amd64 container",
+    "bytes": 365848,
+    "allocationBytes": 368640,
+    "sha256": "17b594f61c8d192f57336b5871efa900a01b73c19951e116e555635a135d4a57",
+    "programDataRentSOL": 1.87357004,
+    "notes": "Mac optimization experiment above remains historical. Linux platform-tool output differs; same Rust source, IDL, features and overflow checks."
   }
 }

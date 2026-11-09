@@ -23,7 +23,7 @@ export default function Home() {
   list.sort((a, b) => {
     if (sort === "new") return b.mint.localeCompare(a.mint);
     if (sort === "graduating") return (b.graduated ? 101 : b.progress) - (a.graduated ? 101 : a.progress);
-    return b.mcUsd - a.mcUsd;
+    return b.mcSol - a.mcSol;
   });
 
   const sorts: [Sort, string][] = [["mc", "Market cap"], ["graduating", "Graduating"], ["new", "New"]];

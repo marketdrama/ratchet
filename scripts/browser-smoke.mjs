@@ -9,7 +9,8 @@ try{
  const errors=[],methods=[];page.on('pageerror',e=>errors.push(e.message));
  await page.setRequestInterception(true);
  page.on('request',req=>{
-  if(req.url().startsWith('https://api.mainnet-beta.solana.com')){
+  if(req.url().startsWith('https://api.coinbase.com/v2/prices/SOL-USD/spot')){req.respond({status:200,contentType:'application/json',headers:{'Access-Control-Allow-Origin':'*'},body:JSON.stringify({data:{base:'SOL',currency:'USD',amount:'86.53'}})});return;}
+  if(req.url().startsWith('https://api.mainnet-beta.solana.com')||req.url()==='http://127.0.0.1:3310/api/solana'){
    if(req.method()==='OPTIONS'){req.respond({status:204,headers:{'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'*'}});return;}
    const body=JSON.parse(req.postData()??'{}');methods.push(body.method);
    const results={getGenesisHash:'5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d',getProgramAccounts:[],getBalance:{context:{slot:1},value:0},getAccountInfo:{context:{slot:1},value:null}};

@@ -853,3 +853,93 @@ launches (no dev buys/graduation/network fees) 2.0700748. Updated runbook max-le
 release snapshots. Latest wallet read: ADMIN0, recorded deployer0.1 SOL; mainnet target still absent.
 Showcase remains upgradeable for later ProgramData rent recovery. Evidence: release/size-optimization.json,
 exact-bytecode-proof.json and current manifest. External audit/deploy/frontend gates remain unchanged.
+
+
+## 2026-11-09 — final preparation pass started; RPC configured privately
+
+User requested everything except mainnet test launch and Lovable UI/UX, which must come last, and asked
+for file logs. User supplied QuickNode RPC credentials. Saved them ONLY in .env.operations (RPC_URL),
+mode0600, confirmed Git ignore. Do not log the endpoint auth path or bundle it into client env variables.
+Read-only requests confirmed mainnet genesis, slot response and Agave4.4.0 runtime. Actual hosted Lovable
+app remains untouched and no mainnet transaction was sent. Metadata hosting account credentials are
+still absent. Began setting up container tools and a checksum-verified official solana-verify0.5.2 binary,
+plus matching-runtime local validation. Next work covers price data, metadata verification, operations/
+shutdown readiness and audit/build deliverables. External professional audit remains distinct from our
+own review. Credentials deliberately omitted from this tracked log.
+
+## 2026-11-09 — final technical preparation, additional evidence
+
+Implemented live display-only Coinbase SOL/USD quotes with validation, deduplication, 60s refresh,
+120s stale cutoff and unavailable values instead of a fixed USD fallback. Market caps now read actual
+mint supply, including after burns. Updated generated Vite data kit only; actual Lovable app/UX untouched.
+Transport failures no longer become a false coin-not-found result. Added regression tests.
+
+Added private server-side read/simulation RPC gateway and bounded loopback CLI bridge. Credentials stay
+in .env.operations (ignored,0600), never in public env or process args. Gateway denies mainnet sends/
+airdrops and redacts provider errors. Corrected u64 precision loss discovered during validator cloning:
+successful RPC JSON is passed verbatim, including rentEpoch=18446744073709551615. QuickNode Discover
+limits getMultipleAccounts to five keys and bursts can HTTP429; CLI bridge chunks/retries accordingly.
+
+Matching-runtime proof: exact 362208-byte Mac artifact successfully upgraded through loader-v3 on an
+isolated Agave4.4.0 validator with mainnet's cloned feature set, then passed full production lifecycle,
+canonical migration, LP0 and floor redemption. Migration213126CU/600000. Saved agave44-macos-proof.json.
+No mainnet transaction was sent. Production target is still absent. Latest RPC balances are ADMIN0SOL,
+recorded deployer0.000995SOL; earlier0.1SOL snapshot is no longer current. No inference about the external
+balance change is made. Re-run funding checks before deployment.
+
+Updated uploader to Pinata public-files API with image-signature/byte-limit validation, staged CID receipt
+and hash-verified public gateway readback for image and JSON. Unit tests use mocks; no live pin occurred.
+User does not know of a Pinata credential. Account/live assets remain unconfigured, explicitly logged.
+Added read-only showcase-status inspection and OPERATIONS.md explaining funding, secrets and closure
+constraints. Prepared AUDIT_SCOPE.md; developer review/isolated builds are not a third-party audit.
+
+Installed dedicated Colima/Docker build environment and checksum-verified solana-verify0.5.2. First fresh
+Linux/amd64 container build succeeded with pinned image digest and SBFv1.44, same locked source. It differs
+from Mac output (365848 vs362208 bytes; different platform standard-library paths/compiler output).
+Canonical release is transitioning to repeated Linux container builds for portable reproducibility;
+second fresh build and canonical-artifact lifecycle proof are in progress. Rust source/features/overflow
+checks remain unchanged. Final rent/hashes and acceptance record will be refreshed after those gates.
+
+Additional checks: 31 unit/property tests and typecheck passed; optimized Next production build passed.
+Reference mobile browser smoke passed using same-origin RPC path with mainnet guard disabled, injected
+wallet mock, no signing/submissions/storage of public-network keys. Live server gateway returned mainnet
+genesis and rejected transaction/airdrop requests, cross-origin browsers and oversized bodies. Scanned
+browser assets: zero private RPC credential matches. Evidence: release/rpc-proof.json, browser-proof.json.
+
+## 2026-11-09 — canonical release acceptance completed
+
+Two fresh sanitized Linux/amd64 builds with the pinned official image and solana-verify0.5.2 match raw
+SHA256 **17b594f61c8d192f57336b5871efa900a01b73c19951e116e555635a135d4a57**, **365848bytes**. The four
+contract input hashes match the earlier source exactly. Canonical builder replaces the host-only build;
+release verification now requires repeated isolated-build evidence matching source/binary/image. A seal
+helper updates client/tooling manifest hashes without bypassing contract source/artifact identity checks.
+No private workspace files enter Docker. No source feature or interface was removed.
+
+Exact canonical Linux binary **PASS** on isolated Agave4.4.0 with cloned mainnet feature set and external
+programs. Real loader-v3 local upgrade passed, followed by production lifecycle/engine parity, immutable
+metadata, negative slippage/substitution/removed-route tests, permissionless migration with0.01SOL caller,
+LP supply0, full-supply backing and exact floor redemption. Migration **244501CU /600000**. CLI read-only
+preflight and wrong-network/config guards passed. Evidence: release/exact-bytecode-proof.json. Earlier
+Mac runtime proof is preserved separately; it is not used as proof of the new artifact.
+
+Fresh current RPC quote:368640-byte allocation; ProgramData **1.87357004SOL**, program/global total
+**1.87556648SOL**, plus ten launches/metadata fees **2.09088248SOL** excluding dev buys/network fees.
+2.3SOL remains the suggested initial on-chain budget margin for this narrow scope. This replaces the
+previous Mac artifact's lower deposit quote. ADMIN0SOL, recorded deployer0.000995SOL, target still absent.
+
+Validation record:31 unit/property tests pass; typecheck and optimized production build pass; production
+dependency audit reports no known vulnerabilities; mobile browser guard/wallet smoke passes. Live RPC
+route read/rejection checks pass. Scanned124 public source files and25 browser assets:0 private endpoint
+credential matches; .env.operations remains ignored/mode0600. Updated handoff/runbook/readiness/audit
+scope and evidence. Actual hosted Lovable UI/UX and all mainnet deployment/test-launch actions remain
+untouched as requested.
+
+Remaining external gates: independent professional audit and public source/build attestation, a real
+metadata hosting account + chosen assets/pins, accessible production ADMIN/upgrade signers and funding.
+These cannot honestly be marked complete by local code/tests. Mainnet deployment/lifecycle and hosted
+Lovable integration are intentionally last. Retain upgrade authority; settle pool/holder floor claims
+before any future closure. No mainnet SOL was spent by these preparation tools.
+
+Stopped temporary preview/RPC processes and the dedicated build VM after verification; installed tools
+and pinned build instructions remain available. Prepared the updated local source snapshot. No external
+messages, repository publication, mainnet deployment or Lovable hosted changes were made.

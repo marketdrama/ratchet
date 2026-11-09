@@ -10,6 +10,10 @@ export async function verifyRelease(){
   if(m.features.length||m.program!=='35UELzdncBr15qztq55Kct3sZvmXnn5D5e5rpGiHgMuC'||m.cluster!=='mainnet-beta')throw new Error('Not a mainnet release manifest');
   if(Object.keys(m.sha256).some(f=>f.includes('node_modules')||f.includes('keypair')))throw new Error('Unexpected generated/private release input');
   for(const [file,hash] of Object.entries(m.sha256))if(sha(readFileSync(resolve(root,file)))!==hash)throw new Error('Release file changed: '+file);
+  const isolated=JSON.parse(readFileSync(resolve(root,'release/isolated-build.json')));
+  if(isolated.artifactSha256!==m.artifactSha256||isolated.matchingFreshBuilds<2||isolated.image!==m.buildEnvironment)throw new Error('Missing matching repeated isolated build proof');
+  for(const [file,hash] of Object.entries(isolated.sourceSha256))if(sha(readFileSync(resolve(root,'onchain',file)))!==hash)throw new Error('Isolated build input changed: '+file);
+  if(isolated.features.length||isolated.platformTools!=='v1.44')throw new Error('Unexpected isolated build configuration');
   const binary=readFileSync(resolve(root,'onchain/target/deploy/ratchet_curve.so'));
   for(const key of ['3vkTXSV3LG7ZrZt1SWMnEYBjNBiYAg168fbEV3Q6skTi','CPMMoo8L3F4NbTegBCKVNunggL7H1ZpdTHKxQB5qKP1C'])
     if(!binary.includes(new PublicKey(key).toBuffer()))throw new Error('Production constant missing in bytecode');

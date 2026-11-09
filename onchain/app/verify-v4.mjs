@@ -93,6 +93,7 @@ console.log('MIGRATION COMPUTE UNITS:',computeUnits,'/ 600000');
 const {writeFileSync,readFileSync}=await import('node:fs');const {createHash}=await import('node:crypto');
 writeFileSync('release/'+(process.env.EXACT_RELEASE?'exact-bytecode-proof':'local-proof')+'.json',JSON.stringify({
   kind:process.env.EXACT_RELEASE?'mainnet-bytecode-local-validator':'test-admin-bytecode-local-validator',
+  validatorVersion:(await c.conn.getVersion())['solana-core'],mainnetFeatureSetCloned:process.env.CLONE_FEATURE_SET==='true',localLoaderV3UpgradeVerified:process.env.VERIFY_LOADER==='true',
   mainnetDependenciesCloned:true,program:c.pid.toBase58(),mint:mint.publicKey.toBase58(),pool:a.poolState.toBase58(),migrationSignature:sig,
   artifactSha256:createHash('sha256').update(readFileSync('onchain/target/deploy/ratchet_curve.so')).digest('hex'),
   productionParams:true,engineParity:true,metadataImmutable:true,lpSupply:'0',fullSupplyFloorBacking:true,redemption:true,

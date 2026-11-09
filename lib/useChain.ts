@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { listCoins, getCoin, balanceSol, ensureFunds, initGlobal, globalExists, type CoinAccount } from "./chain";
+import {refreshSolPrice} from "./price";
 import { view, spotPrice, floorPrice, type CoinView } from "./coinview";
 
 export function useMounted() {
@@ -28,7 +29,7 @@ export function useCoins() {
     let live = true;
     refresh.current = async () => {
       try {
-        const [list, b] = await Promise.all([listCoins(), balanceSol()]);
+        const [list, b] = await Promise.all([listCoins(), balanceSol(),refreshSolPrice()]);
         if (!live) return;
         setCoins(list.map(view));
         setBal(b);
@@ -56,9 +57,10 @@ export function useCoin(mint: string) {
     let live = true;
     refresh.current = async () => {
       try {
-        const a = await getCoin(mint);
+        const [a] = await Promise.all([getCoin(mint),refreshSolPrice()]);
         if (!live) return;
         if (!a) { setNotFound(true); return; }
+        setNotFound(false);
         setAccount(a);
         setCoin(view(a));
         setHistory((h) => {

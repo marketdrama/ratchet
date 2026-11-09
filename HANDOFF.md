@@ -6,7 +6,7 @@ full history is preserved in BUILD_LOG.md. Start with RELEASE_STATUS.md and DEPL
 ## Where we are
 
 v4 release candidate implemented. **No mainnet deployment/public trading.** Read-only RPC confirms the
-mainnet target is absent and ADMIN is at 0 SOL and the recorded deployer at 0.1 SOL in the latest snapshot. No independent audit yet.
+mainnet target is absent and ADMIN is at 0 SOL and the recorded deployer at 0.000995 SOL in the latest snapshot. No independent audit yet.
 
 - Program ID: `35UELzdncBr15qztq55Kct3sZvmXnn5D5e5rpGiHgMuC`.
 - Mainnet ADMIN: `3vkTXSV3LG7ZrZt1SWMnEYBjNBiYAg168fbEV3Q6skTi`; signs production global initialization.
@@ -31,7 +31,7 @@ universal ~86 SOL promise or weaken the cap to reproduce it.
 ## Deployment decision — temporary showcase (user, 2026-11-09)
 
 Retain upgrade authority for the showcase. **Do not run `set-upgrade-authority --final`.** The owner
-intends to close the program afterward and reclaim the ProgramData balance (~1.85276 SOL at the last
+intends to close the program afterward and reclaim the ProgramData balance (~1.87357 SOL at the last
 rent quote). Keep the actual upgrade-authority signer accessible; ADMIN and upgrade authority are
 separate roles. Label the showcase upgradeable/temporary rather than immutable.
 
@@ -42,8 +42,9 @@ shutdown plan, not an instruction to close anything now; mainnet has not been de
 ## Binary size optimization
 
 Compiler-only change: `opt-level="z"`, `lto="thin"`, codegen units 1, overflow checks still enabled.
-Binary 408704 → 362208 bytes (11.38% smaller); Rust source and IDL unchanged, no features removed.
-ProgramData deposit 2.08164684 → 1.85276236 SOL at the current quoted rent. See
+Mac binary408704 →362208 bytes (11.38% smaller). Canonical release now uses the portable Linux build:
+365848 bytes, two fresh matching builds, SHA17b594f6… . Rust source/IDL/features unchanged. Current
+ProgramData quote1.87357004SOL for368640-byte allocation. See
 release/size-optimization.json and the refreshed exact-bytecode proof; use the new release manifest/hash.
 
 ## Technical fixes delivered
@@ -74,16 +75,33 @@ No production wallet is involved in that test. The true Lovable app still needs 
 ## Current funding estimate — corrected
 
 The earlier 4.16 SOL estimate double-counted the deployment buffer. Loader-v3 reuses it for ProgramData.
-Program/global rent is ~1.85476 SOL after size optimization. Each coin adds ~0.01153 SOL rent + 0.01 SOL Metaplex fee, paid by its
-creator. Program + ten self-funded launches, no dev buys/graduations: ~2.07007 SOL before network fees;
+Program/global rent is ~1.87557 SOL after size optimization. Each coin adds ~0.01153 SOL rent + 0.01 SOL Metaplex fee, paid by its
+creator. Program + ten self-funded launches, no dev buys/graduations: ~2.09088 SOL before network fees;
 2.3 SOL is a practical starting on-chain budget. These balances are not charged daily. See
 DEPLOY_MAINNET.md and the refreshed release/mainnet-preflight.json. RPC/hosting/audit costs are separate.
+
+## Active follow-up scope (2026-11-09)
+
+User requested completion of everything except the mainnet test launch and actual Lovable UI/UX, which
+come last. Do not launch test coins or modify the hosted Lovable UI in this pass. Continue logging work.
+
+QuickNode mainnet RPC is now configured in **.env.operations**, variable **RPC_URL**, mode **0600**;
+Git ignores the file. Credentials must never appear in tracked docs, browser bundles or logs. Verified
+mainnet genesis and a successful RPC request. The endpoint reports Agave **4.4.0**; matching-runtime
+compatibility verification is now part of release preparation. Metadata pinning credentials are still
+not configured. Requested account details asynchronously; user provided RPC credentials only so far.
+
+Delivered: live price and actual mint-supply data, private RPC gateway, verified-upload helper,
+read-only shutdown checks, pinned isolated build environment and audit scope. See OPERATIONS.md. A third-party audit cannot be claimed from developer
+self-review. No mainnet writes are being performed.
 
 ## Next / what remains
 
 1. Independent Solana audit of v4, including floor liabilities and migration.
-2. Configure real permanent metadata hosting, accessible ADMIN signer, funded deployer and reliable RPC.
-3. Publish reviewed source and obtain independent isolated build verification (Docker unavailable here).
+2. Configure permanent metadata hosting/pins, accessible ADMIN signer and funded deployer. Private
+   QuickNode RPC is configured; Discover plan has a five-account batch limit and burst quotas.
+3. Publish reviewed source and obtain independent build attestation. Docker/solana-verify are installed;
+   two fresh isolated Linux builds match locally. Canonical-runtime acceptance is in release/exact-bytecode-proof.json.
 4. Deploy exact reviewed artifact, production initialize, verify deployed bytecode and run reviewed
    mainnet smoke proof on an isolated test deployment/config; do not initialize production with test params.
 5. Retain and secure the upgrade-authority signer for the temporary showcase; never run `--final`.
@@ -95,3 +113,17 @@ DEPLOY_MAINNET.md. Old seed/lifecycle/v1 migration scripts are historical and in
 Durable indexer/DB is a later scaling task. `RTK.md` referenced by the user's instructions could not be found.
 
 Every session: append work/evidence to BUILD_LOG.md and update this current handoff before ending.
+
+## Final preparation acceptance — 2026-11-09
+
+Canonical365848-byte artifact: SHA25617b594f61c8d192f57336b5871efa900a01b73c19951e116e555635a135d4a57.
+Two fresh isolated builds match. Exact artifact passed Agave4.4.0 + cloned mainnet features + real local
+loader-v3 upgrade and full lifecycle; migration244501/600000CU.31 tests/typecheck/production build,
+dependency audit, mobile guard/wallet smoke and live read-only gateway checks pass. No private RPC
+credential found in source/browser assets. See OPERATIONS.md, AUDIT_SCOPE.md and release/*proof.json.
+
+Current ProgramData quote1.87357004SOL; program/global +10 launches2.09088248SOL before dev buys/network
+fees. Actual mainnet program is absent. No mainnet transactions were sent. All actual Lovable UI/UX and
+mainnet test-launch work remain deliberately deferred. External audit, source publication/independent
+attestation, live metadata account/pins and production signing/funding remain unfulfilled owner/external
+gates. User does not know of an existing Pinata credential; don't repeatedly ask for it.

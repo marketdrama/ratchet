@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-11-09T00:11:35.302Z",
+  "builder": "solana-verify 0.5.2",
+  "image": "solanafoundation/solana-verifiable-build@sha256:a20e03cbd0b96bf3d4084e956cf6d7b47389c7a35508628a82296c3376518be9",
+  "platformTools": "v1.44",
+  "features": [],
+  "sourceSha256": {
+    "Cargo.toml": "e2eb2d305564607439a214d68507538ab1e434eb42bf56c284c7650f75b35638",
+    "Cargo.lock": "f1d5c7bae19cc93a3521a7bf89da4c664b143567a80a1f1beb2cab0c396cc56f",
+    "programs/ratchet-curve/Cargo.toml": "9ad990a98951ed2aaa69ae1e4a66c20f3cc81047f2cc79fbaf98e096ca370cb1",
+    "programs/ratchet-curve/src/lib.rs": "e81f369c11eccad507edf4845d6677445cbac383f66faea6fe4a52d35ee391cc"
+  },
+  "artifactBytes": 365848,
+  "artifactSha256": "17b594f61c8d192f57336b5871efa900a01b73c19951e116e555635a135d4a57",
+  "matchingFreshBuilds": 2,
+  "thirdPartyAttestation": false
+}

@@ -2,6 +2,7 @@
 // display-ready CoinViews. Reads work for everyone; trades require a connected wallet.
 import { useCallback, useEffect, useRef, useState } from "react";
 import { listCoins, getCoin, balanceSol, burnerAddress } from "./ratchetClient";
+import {refreshSolPrice} from "./price";
 import { view, type CoinView } from "./coinview";
 
 // Avoid SSR/first-paint mismatch: chain reads are browser-only. Gate dynamic render.
@@ -19,7 +20,7 @@ export function useCoins(pollMs = 8000): { coins: CoinView[]; loading: boolean; 
   const alive = useRef(true);
   const load = useCallback(async () => {
     try {
-      const raw = await listCoins();
+      const [raw] = await Promise.all([listCoins(),refreshSolPrice()]);
       if (alive.current) { setCoins(raw.map(view)); setError(null); }
     } catch (e) { if (alive.current) setError((e as Error).message ?? "read failed"); }
     finally { if (alive.current) setLoading(false); }
@@ -41,7 +42,7 @@ export function useCoin(mint: string | undefined, pollMs = 6000): { coin: CoinVi
   const load = useCallback(async () => {
     if (!mint) return;
     try {
-      const raw = await getCoin(mint);
+      const [raw] = await Promise.all([getCoin(mint),refreshSolPrice()]);
       if (!alive.current) return;
       if (!raw) { setNotFound(true); setCoin(null); }
       else { setCoin(view(raw)); setNotFound(false); }

@@ -19,11 +19,13 @@ Technical release preparation and public mainnet launch are distinct gates. See 
 ## External/public launch gates
 
 - [ ] Independent audit of this v4 source, including full-supply backing and migration CPI.
-- [ ] Secure funded deployer, accessible ADMIN signer, configured reliable RPC.
+- [x] Private mainnet RPC configured and read-only gateway verified.
+- [ ] Secure funded deployer and accessible ADMIN signer.
 - [ ] Permanent image/JSON hosting account and retained pins; verify a real metadata URI.
 - [ ] Deploy the exact reviewed binary; initialize production globals; compare deployed bytecode.
 - [ ] Real mainnet migration/redemption smoke proof on a separately reviewed test deployment/config.
-- [ ] Independent source/build verification (Docker/solana-verify or matching isolated toolchain).
+- [x] Two fresh isolated pinned Linux builds match (local evidence, not third-party attestation).
+- [ ] Publish reviewed source and obtain independent build attestation.
 - [x] Owner chose retained upgrade authority for a temporary showcase; do not finalize.
 - [ ] Secure and verify the upgrade-authority signer; settle positions before future program closure.
 - [ ] Import v4 kit into actual Lovable app, verify wallet/quotes/metadata/migration/redemption there.

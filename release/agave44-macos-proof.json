@@ -1,0 +1,21 @@
+{
+  "kind": "mainnet-bytecode-local-validator",
+  "mainnetDependenciesCloned": true,
+  "program": "35UELzdncBr15qztq55Kct3sZvmXnn5D5e5rpGiHgMuC",
+  "mint": "5hxPg6MvD1koXeDfkNciJj5jYzCqHziPzBqZbgF5eXPp",
+  "pool": "7HLUBrZSLgd8pJpvbhgH4dL6vqHJDGZdHseuiksFJQMk",
+  "migrationSignature": "4Su8zZExSyJJAD1wSgzvTM4jUa2RB14GMa8x5HikVCo1St7cT1Szy1vWSe66aVkyRraiNPEXNHhYDdoUpHX1JsKA",
+  "artifactSha256": "d189c60479f1eac0236acf5658437618884dfa0a37c483b64e34d0d260f49c4c",
+  "productionParams": true,
+  "engineParity": true,
+  "metadataImmutable": true,
+  "lpSupply": "0",
+  "fullSupplyFloorBacking": true,
+  "redemption": true,
+  "migrationComputeUnits": 213126,
+  "migrationComputeLimit": 600000,
+  "validatorVersion": "4.4.0",
+  "mainnetFeatureSetCloned": true,
+  "localLoaderV3UpgradeVerified": true,
+  "loaderUpgradeSignature": "57BtpHKPovATbBzauRMpQcUG9qzLThs6ECvkv1y87xfaevdoNn4dQ4GBY8VopRtFECbTPYE3fkE7frAbCa1satyb"
+}

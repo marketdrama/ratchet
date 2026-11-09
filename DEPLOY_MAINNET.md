@@ -14,8 +14,9 @@ Run `pnpm test`, `pnpm typecheck`, `pnpm build`, `pnpm test:onchain`, then `pnpm
 An independent Solana audit remains an external launch gate. Local verification does not replace it.
 Builds use pinned Cargo.lock and SBF tools v1.44. A same-machine bytecode repeat check is useful but is
 not independent reproducible-build attestation. For public verification, publish the reviewed source
-repository and reproduce in an isolated matching toolchain (e.g. solana-verify/Docker); Docker is not
-installed in this workspace environment. Do this before making authority irreversible.
+repository and independently reproduce the pinned Linux container build. Two fresh isolated builds now
+match locally; image/hash/evidence are in release/isolated-build.json and OPERATIONS.md. This is not an
+external attestation. Retain upgrade authority as requested for the showcase.
 
 ## Wallet, RPC and fees
 
@@ -28,7 +29,7 @@ solana balance --url "$RPC_URL" --keypair /secure/deployer.json
 solana program show 35UELzdncBr15qztq55Kct3sZvmXnn5D5e5rpGiHgMuC --url "$RPC_URL"
 ```
 
-Run `node --experimental-strip-types scripts/mainnet-preflight.mjs` to record live read-only program, balance, rent and Raydium-config checks. Measure rent on the actual built artifact, including ProgramData header and chosen allocation.
+Run `node --env-file=.env.operations --experimental-strip-types scripts/mainnet-preflight.mjs` to record live read-only program, balance, rent and Raydium-config checks. Measure rent on the actual built artifact, including ProgramData header and chosen allocation.
 Default loader-v3 allocation may exceed bytecode size: `--max-len` makes the allocation explicit. Pool
 creation fees/rent must be read from live Raydium config/RPC; old fixed ~0.4-SOL rent estimates are stale.
 The contract retains 0.3 SOL for migration costs and rewards unused margin to the caller.
@@ -36,10 +37,10 @@ The contract retains 0.3 SOL for migration costs and rewards unused margin to th
 ## Current early-launch costs (2026-11-09, optimized build)
 
 The previous ~4.16 SOL peak estimate double-counted the deployment buffer. The original binary also
-needed more storage; compiler-only optimization reduced it from 408704 to 362208 bytes without changing
-the program source or interface (see release/size-optimization.json). In loader-v3, the buffer's
-SOL is returned to the payer before ProgramData is created. For this 364544-byte allocation, current
-mainnet RPC rent is **1.85359548 SOL total for Program + ProgramData**, not 4.16 SOL. Global initialization
+needed more storage; the Mac compiler experiment shrank it from408704 to362208 bytes. The canonical
+portable Linux build is365848 bytes, with unchanged source/interface/features (see release/size-optimization.json). In loader-v3, the buffer's
+SOL is returned to the payer before ProgramData is created. For this 368640-byte allocation, current
+mainnet RPC rent is **1.87440316 SOL total for Program + ProgramData**, not 4.16 SOL. Global initialization
 adds **0.00116332 SOL**. Keep a margin for transaction/priority fees and retries.
 
 Per new coin, current account rent is **0.01153160 SOL** (82-byte mint, 483-byte curve, two 165-byte ATAs,
@@ -48,7 +49,7 @@ Per new coin, current account rent is **0.01153160 SOL** (82-byte mint, 483-byte
 and pays these costs; the platform does not automatically subsidize creators.
 
 With no developer buys or graduations, totals including one-time program/global rent and metadata fees:
-0 coins = 1.85475880 SOL; 1 = 1.87629040; 5 = 1.96241680; 10 = 2.07007480. **2.3 SOL** is a practical
+0 coins = 1.87556648 SOL; 1 = 1.89709808; 5 = 1.98322448; 10 = 2.09088248. **2.3 SOL** is a practical
 initial on-chain budget for this scope with modest fee/retry margin. Audit, RPC, hosting and multisig
 setup costs are separate. Rent-exempt balances are not daily subscriptions; no tokens means no per-token
 accounts to fund. Raydium costs arise only at graduation, paid from curve reserves via the 0.3 SOL reserve.
@@ -64,7 +65,7 @@ Refresh `release/mainnet-preflight.json` before funding or deployment; rent sche
 pnpm release:verify
 solana program deploy onchain/target/deploy/ratchet_curve.so \
   --program-id onchain/program-keypair-mainnet.json \
-  --max-len 364544 \
+  --max-len 368640 \
   --keypair /secure/deployer.json --url "$RPC_URL"
 ```
 
@@ -134,7 +135,7 @@ separate from program upgradeability.
 After the showcase, settle coin positions and ensure nobody depends on the program for floor redemption.
 Closing disables those instructions and does not refund coin-vault balances, Metaplex/transaction fees,
 or burned-LP liquidity. There is no admin vault withdrawal/close route in v4. The latest reclaimable
-ProgramData deposit quote is ~1.85276236 SOL; query its actual lamports at shutdown. Smaller accounts are
+ProgramData deposit quote is ~1.87357004 SOL; query its actual lamports at shutdown. Smaller accounts are
 not automatically refunded by program closure.
 
 No closure is authorized for execution now; the program is not deployed. A future wind-down must verify

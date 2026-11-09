@@ -5,7 +5,7 @@ import {
   type VersionedTransaction, LAMPORTS_PER_SOL, ComputeBudgetProgram,
 } from "@solana/web3.js";
 import {
-  TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID, getAssociatedTokenAddressSync, unpackAccount,
+  TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID, getAssociatedTokenAddressSync, unpackAccount, unpackMint,
 } from "@solana/spl-token";
 import idl from "./idl.json";
 import { walletAdapter, walletAddress, LOCAL_RPC } from "./wallet";
@@ -20,12 +20,12 @@ const DECIMALS = 6;
 
 export const SELL_FEE_MIN_BPS = 125;
 export const SELL_FEE_MAX_BPS = 500;
-export const IS_LOCAL = LOCAL_RPC(RPC_URL);
 export const CLUSTER = process.env.NEXT_PUBLIC_SOLANA_CLUSTER ?? "localnet";
+export const IS_LOCAL = CLUSTER === "localnet" && LOCAL_RPC(RPC_URL);
 const adapter = walletAdapter(IS_LOCAL);
 let _conn: Connection | null = null;
 let _program: Program | null = null;
-export function connection():Connection {return _conn ??= new Connection(RPC_URL,"confirmed");}
+export function connection():Connection {return _conn ??= new Connection(RPC_URL.startsWith("/") ? new URL(RPC_URL,window.location.origin).href : RPC_URL,"confirmed");}
 export function userAddress():PublicKey {
   const key=walletAddress(IS_LOCAL); if(!key)throw new Error("Connect your wallet first"); return key;
 }
@@ -72,7 +72,7 @@ export async function initGlobal(): Promise<void> { return; }
 export interface CoinAccount {
   mint: string; creator: string; name: string; symbol: string;
   virtualSol: bigint; virtualToken: bigint; realSol: bigint; realToken: bigint;
-  circulating: bigint; floorVault: bigint; floorScaled: bigint;
+  totalSupply: bigint; circulating: bigint; floorVault: bigint; floorScaled: bigint;
   complete: boolean; graduated: boolean; poolTokens: bigint; marketSol: bigint;
   uri: string; initialRealToken: bigint; poolAddress: string;
   sellFeeBps: number; // this coin's sell tax in bps (125..=500)
@@ -83,7 +83,7 @@ const toCoin = (mint: string, a: any): CoinAccount => ({
   mint, creator: a.creator.toBase58(), name: a.name, symbol: a.symbol,
   virtualSol: BigInt(a.virtualSol.toString()), virtualToken: BigInt(a.virtualToken.toString()),
   realSol: BigInt(a.realSol.toString()), realToken: BigInt(a.realToken.toString()),
-  circulating: BigInt(a.circulating.toString()), floorVault: BigInt(a.floorVault.toString()),
+  totalSupply: 0n, circulating: BigInt(a.circulating.toString()), floorVault: BigInt(a.floorVault.toString()),
   floorScaled: BigInt(a.floorScaled.toString()), complete: a.complete, graduated: a.graduated,
   poolTokens: 0n, marketSol: 0n, uri: a.uri, initialRealToken: BigInt(a.initialRealToken.toString()),
   poolAddress: a.raydiumPool.toBase58(), sellFeeBps: a.sellFeeBps,
@@ -98,19 +98,28 @@ export async function listCoins(): Promise<CoinAccount[]> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const all = await (program().account as any).bondingCurve.all();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return Promise.all(all.map((x: any) => toCoin(x.account.mint.toBase58(), x.account)).filter(isLiveCoin).map(withPool));
+  const coins:CoinAccount[]=all.map((x: any)=>toCoin(x.account.mint.toBase58(),x.account)).filter(isLiveCoin);
+  // Respect small RPC plan limits and avoid one mint request per card.
+  for(let i=0;i<coins.length;i+=5){
+    const group=coins.slice(i,i+5),mints=group.map(c=>new PublicKey(c.mint));
+    const infos=await connection().getMultipleAccountsInfo(mints);
+    for(let j=0;j<group.length;j++){if(!infos[j])throw new Error("Mint unavailable");group[j].totalSupply=unpackMint(mints[j],infos[j]!).supply;}
+  }
+  return Promise.all(coins.map(c=>withPool(c,true)));
 }
 
 export async function getCoin(mint: string): Promise<CoinAccount | null> {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const a = await (program().account as any).bondingCurve.fetch(curvePda(new PublicKey(mint)));
-    const coin = toCoin(mint, a);
-    return isLiveCoin(coin) ? await withPool(coin) : null;
-  } catch { return null; }
+  let key:PublicKey;try{key=new PublicKey(mint);}catch{return null;}
+  // Transport failures propagate; they must not be shown as a nonexistent coin.
+  const a=await (program().account as any).bondingCurve.fetchNullable(curvePda(key));
+  if(!a)return null;
+  const coin=toCoin(mint,a);return isLiveCoin(coin)?await withPool(coin):null;
 }
 
-async function withPool(c: CoinAccount): Promise<CoinAccount> {
+async function withPool(c: CoinAccount,supplyLoaded=false): Promise<CoinAccount> {
+  if(!supplyLoaded){const mint=new PublicKey(c.mint), mintInfo=await connection().getAccountInfo(mint);
+  if(!mintInfo)throw new Error("Mint unavailable");
+  c={...c,totalSupply:unpackMint(mint,mintInfo).supply};}
   if (!c.graduated) return c;
   const accounts = migrationAccounts(PROGRAM_ID, new PublicKey(c.mint), adapter.publicKey, CLUSTER === "devnet");
   if (accounts.poolState.toBase58() !== c.poolAddress) throw new Error("Pool address mismatch");

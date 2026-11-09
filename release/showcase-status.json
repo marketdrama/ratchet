@@ -1,0 +1,11 @@
+{
+  "checkedAt": "2026-11-09T00:04:43.246Z",
+  "readOnly": true,
+  "program": "35UELzdncBr15qztq55Kct3sZvmXnn5D5e5rpGiHgMuC",
+  "programExists": false,
+  "closureAllowed": false,
+  "blockers": [
+    "Program is not deployed; no ProgramData deposit exists to reclaim"
+  ],
+  "coins": []
+}

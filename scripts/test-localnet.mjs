@@ -29,15 +29,17 @@ if(exact){
   writeFileSync(file,JSON.stringify({pubkey:global.toBase58(),account:{lamports:10_000_000,data:[data.toString('base64'),'base64'],owner:idl.address,executable:false,rentEpoch:0}}));
   extra.push('--account',global.toBase58(),file);
 }
-const validator=spawn('solana-test-validator' ,['--ledger',ledger,'--rpc-port','18999','--faucet-port','19031','--gossip-port','19001','--dynamic-port-range','19002-19030',
- '--url','https://api.mainnet-beta.solana.com','--clone-upgradeable-program','CPMMoo8L3F4NbTegBCKVNunggL7H1ZpdTHKxQB5qKP1C',
+const validator=spawn(process.env.VALIDATOR_BIN??'solana-test-validator' ,['--ledger',ledger,'--rpc-port','18999','--faucet-port','19031','--gossip-port','19001','--dynamic-port-range','19002-19030',
+ '--url',process.env.CLONE_RPC_URL??'https://api.mainnet-beta.solana.com',...(process.env.CLONE_FEATURE_SET==='true'?['--clone-feature-set']:[]),'--clone-upgradeable-program','CPMMoo8L3F4NbTegBCKVNunggL7H1ZpdTHKxQB5qKP1C',
  '--clone-upgradeable-program','metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s','--clone','D4FPEruKEHrG5TenZ2mpDGEfu1iUvTiqBxvpU8HLBvC2',
- '--clone','DNXgeM9EiiaAbaWvwjHj9fQQLAX5ZsfHyvmYUNRAdNC8','--bpf-program','35UELzdncBr15qztq55Kct3sZvmXnn5D5e5rpGiHgMuC','onchain/target/deploy/ratchet_curve.so',...extra,'--quiet'],{stdio:'inherit'});
+ '--clone','DNXgeM9EiiaAbaWvwjHj9fQQLAX5ZsfHyvmYUNRAdNC8','--upgradeable-program','35UELzdncBr15qztq55Kct3sZvmXnn5D5e5rpGiHgMuC','onchain/target/deploy/ratchet_curve.so',testWallet.publicKey.toBase58(),...extra,'--quiet'],{stdio:'inherit'});
 try{
   let ready=false;
-  for(let i=0;i<120;i++){try{await conn.getGenesisHash();ready=true;break;}catch{await new Promise(r=>setTimeout(r,500));}}
+  for(let i=0;i<120;i++){if(validator.exitCode!==null)throw new Error("Validator exited before startup: "+validator.exitCode);try{await conn.getGenesisHash();ready=true;break;}catch{await new Promise(r=>setTimeout(r,500));}}
   if(!ready)throw new Error('Validator failed to start; ledger '+ledger);
-  run('solana',['airdrop','2000',testWallet.publicKey.toBase58(),'--url',conn.rpcEndpoint]);
+  run(process.env.SOLANA_BIN??'solana',['airdrop','2000',testWallet.publicKey.toBase58(),'--url',conn.rpcEndpoint]);
+  // Exercise the actual loader-v3 deployment verifier locally, not only genesis preload.
+  if(process.env.VERIFY_LOADER==='true')run(process.env.SOLANA_BIN??'solana',['program','deploy','onchain/target/deploy/ratchet_curve.so','--program-id','35UELzdncBr15qztq55Kct3sZvmXnn5D5e5rpGiHgMuC','--upgrade-authority',testWalletFile,'--keypair',testWalletFile,'--url',conn.rpcEndpoint,'--use-rpc']);
   process.env.VERIFY_WALLET=testWalletFile;
   if(exact)process.env.EXACT_RELEASE='true';
   run(process.execPath,['--experimental-strip-types','onchain/app/verify-v4.mjs']);

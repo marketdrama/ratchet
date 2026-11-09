@@ -1,8 +1,10 @@
+import {usdPriceString} from "./price";
 import type { Grade } from "./market";
 
 export const shortAddr = (a: string) => `${a.slice(0, 4)}…${a.slice(-4)}`;
 
-export function fmtUsd(n: number): string {
+export function fmtUsd(n: number | null): string {
+  if(n===null||!Number.isFinite(n))return "—";
   if (n >= 1e9) return `$${(n / 1e9).toFixed(2)}B`;
   if (n >= 1e6) return `$${(n / 1e6).toFixed(2)}M`;
   if (n >= 1e3) return `$${(n / 1e3).toFixed(1)}K`;
@@ -15,12 +17,7 @@ export function fmtSol(n: number): string {
   return `${n.toExponential(2)} SOL`;
 }
 
-export function fmtPrice(n: number): string {
-  if (n === 0) return "$0";
-  const usd = n * 180;
-  if (usd >= 0.01) return `$${usd.toFixed(4)}`;
-  return `$${usd.toExponential(2)}`;
-}
+export function fmtPrice(n:number):string{return usdPriceString(n);}
 
 export function ago(ms: number): string {
   const s = Math.max(0, Math.floor((Date.now() - ms) / 1000));

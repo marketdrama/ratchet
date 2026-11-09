@@ -28,4 +28,7 @@ set both explicitly for a public deployment. `VITE_ENABLE_MAINNET_TRADING=false`
 
 Preserve the retained-floor product copy in the root app's docs. A v4 program alone does not update the
 separately hosted Lovable app or its existing guard; that integration must be verified in its repository.
-USD values remain estimates at the stated fixed SOL/USD assumption, not a live price feed.
+USD estimates use the public Coinbase SOL/USD spot feed, refreshed at most once per minute. Quotes
+older than two minutes are unavailable; show a dash, not a fixed fallback. Market cap uses actual remaining
+mint supply after burns. USD conversion never affects transaction math. The authenticated RPC must stay
+behind a server proxy; never put a private endpoint in VITE_RPC_URL. See OPERATIONS.md.
