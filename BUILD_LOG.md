@@ -943,3 +943,43 @@ before any future closure. No mainnet SOL was spent by these preparation tools.
 Stopped temporary preview/RPC processes and the dedicated build VM after verification; installed tools
 and pinned build instructions remain available. Prepared the updated local source snapshot. No external
 messages, repository publication, mainnet deployment or Lovable hosted changes were made.
+
+## 2026-11-09 — live metadata hosting fixed without login
+
+User requested live hosting and clarified they want an option without login. Pinata browser setup was
+denied by the site permission gate; did not retry/bypass it. Researched current official alternatives:
+Catbox's business use/retention restrictions are unsuitable here; PinMe now requires auth. Chose
+Turbo/Arweave's documented free signed-data-item uploads instead. Live /info reports107520-byte free
+item limit and10MiB signer/IP lifetime quota. No website account is needed.
+
+Added pinned @ardrive/turbo-upload0.7.0 (zero runtime dependencies) and default Turbo path in the existing
+metadata uploader. Dedicated locally generated signer .metadata-upload-keypair.json is ignored/0600;
+it signs only Arweave data items, never Solana transactions. It is not an ADMIN/deployer key. Requires
+zero Turbo credits, checks actual signed size/free quota, stops instead of paying/top-ups/sponsorship.
+Images limited100KiB to leave envelope headroom; Pinata remains an optional5MiB provider. Receipts bind
+inputs and support resumable/repeat verification; prepared deterministic IDs are saved before POST.
+
+Live public proof image+JSON upload succeeded. Both receipts charge **winc0**, both gateway byte hashes
+match, MIME types image/png and application/json, JSON CORS*. Repeated identical command reused both
+IDs and rechecked retrieval. No token was created and no Solana SOL was spent. Full service receipts,
+IDs, hashes and readback flags: release/metadata-hosting-proof.json. The image is a tiny public test
+fixture and JSON explicitly says no token was launched; these are not chosen production coin assets.
+
+Latest gatewayVerified/chainStable flags are false: public hosting/retrieval works, but final Arweave
+settlement is pending. Retained receipts make that distinction explicit; do not claim finalized permanent
+storage from a fresh HTTP200 alone. Actual assets should be chosen and settlement checked before launch.
+Official sources: https://docs.ar.io/build/upload/upload-and-verify/ and
+https://github.com/ardriveapp/turbo-upload . Updated operations/handoff/checklist/readiness accordingly.
+
+Final fixture correction: detected an invalid IDAT checksum in the initial sample PNG after the first
+byte-only hosting proof. Preserved its receipts locally under ignored .metadata-uploads, generated a
+valid synthetic1x1 PNG and replaced the canonical proof with fresh zero-charge uploads. Added PNG chunk
+CRC/truncation rejection and regression coverage. Verified the newly hosted PNG's chunk CRCs and actual
+zlib-decoded pixel bytes, plus public JSON MIME/CORS and hashes. Current canonical proof IDs/URLs are
+in release/metadata-hosting-proof.json; the earlier sample is not used by any coin.
+
+Acceptance:34 tests/typecheck/Next production build pass; production dependency audit has no known
+vulnerabilities. Release manifest resealed/verified; on-chain binary/source unchanged. Dedicated upload
+signer remains ignored/0600; source credential scan found0matches. Updated source archive/logs. Login
+and Pinata account setup no longer block live hosting. Final Arweave settlement remains explicitly
+pending in readback flags; no mainnet token/test launch or hosted Lovable UI changes were made.

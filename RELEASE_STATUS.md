@@ -12,7 +12,7 @@ hosted frontend.** No mainnet transaction has been sent.
   that SOL separately, freeze the floor at graduation and expose untaxed burn-and-redeem. Pool tokens
   cannot dilute the backing. Remaining reserves pay migration costs and seed locked Raydium liquidity.
 - Immutable Metaplex metadata created before mint authority revocation; bounded URI and payer attribution.
-  Permanent image/JSON pinning helper supplied; requires the owner's configured hosting account.
+  Live no-login Turbo/Arweave hosting supplied, with zero-charge receipts and byte-verified image/JSON.
 - Shared integer buy/sell quotes, the real solvency cap, safe amount bounds and nonzero min-out. Creator-
   seeded graduation economics are explicit; no claim of a universal 86-SOL graduation budget remains.
 - Explicit, resumable CLI actions, full genesis checks, exact production-config validation, isolated test
@@ -28,7 +28,7 @@ hosted frontend.** No mainnet transaction has been sent.
 
 ## Validation
 
-- 31 unit/property tests pass, including codec boundary vectors, SPL layouts, public wallet signing,
+- 34 unit/property tests pass, including codec boundary vectors, SPL layouts, public wallet signing,
   capped seeded quotes, migration full-supply backing and remaining-vault solvency after redemptions.
 - TypeScript and optimized Next.js 15.5.29 build pass.
 - `pnpm audit --prod --audit-level moderate`: **no known vulnerabilities** across the workspace.
@@ -69,8 +69,9 @@ with five-account batching/burst limits. Actual balances, fees and rent must be 
 
 No independent audit exists. Docker/solana-verify are installed and two isolated builds match locally;
 independent public source/build attestation has not been obtained. The real Lovable app is outside this workspace; importing the kit does not prove
-its hosted wallet/trade flows. A working metadata pinning account and real pinned assets remain owner
-configuration. Real mainnet migration/redemption has not been performed. The owner has chosen a temporary showcase with retained upgrade authority and future ProgramData rent
+its hosted wallet/trade flows. No-login Turbo/Arweave image/JSON hosting is now live, with zero-charge receipts and verified public
+readback. Final Arweave settlement is pending at latest check; actual coin assets must be chosen/verified
+before launch. Pinata is optional and does not block the default path. Real mainnet migration/redemption has not been performed. The owner has chosen a temporary showcase with retained upgrade authority and future ProgramData rent
 recovery. Do not finalize the program. Verify custody of the upgrade-authority signer and settle
 showcase positions before a future closure; it disables redemption and does not refund coin vaults.
 

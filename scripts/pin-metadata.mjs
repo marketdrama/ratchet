@@ -1,8 +1,23 @@
-// Pin public image + immutable JSON before create. Credentials stay in the environment.
+// Host image + immutable JSON before create. Default: no-login, free-only Turbo/Arweave.
 import {readFileSync,statSync,writeFileSync,existsSync} from 'node:fs';
 import {basename,extname,resolve} from 'node:path';
 import {createHash} from 'node:crypto';
+import {crc32} from 'node:zlib';
 import {pathToFileURL} from 'node:url';
+import {turboClient,uploadFreeTurbo,verifyTurbo} from './turbo-metadata.mjs';
+function validPng(bytes){
+ if(!bytes.subarray(0,8).equals(Buffer.from('89504e470d0a1a0a','hex')))return false;
+ let offset=8,header=false,pixels=false;
+ while(offset+12<=bytes.length){
+  const size=bytes.readUInt32BE(offset),end=offset+12+size;if(end>bytes.length)return false;
+  const kind=bytes.subarray(offset+4,offset+8).toString('ascii');
+  if(crc32(bytes.subarray(offset+4,end-4))!==bytes.readUInt32BE(end-4))return false;
+  if(!header){if(kind!=='IHDR'||size!==13)return false;header=true;}
+  if(kind==='IDAT')pixels=true;
+  if(kind==='IEND')return header&&pixels&&size===0&&end===bytes.length;
+  offset=end;
+ }return false;
+}
 const hash=b=>createHash('sha256').update(b).digest('hex');
 export function metadataInput(image,name,symbol,description=''){
   if(!name?.trim()||!symbol?.trim()||Buffer.byteLength(name)>32||Buffer.byteLength(symbol)>10)throw new Error('Invalid name/ticker or on-chain byte limit exceeded');
@@ -10,7 +25,7 @@ export function metadataInput(image,name,symbol,description=''){
   if(statSync(image).size>5*1024*1024)throw new Error('Image must be at most 5 MB');
   const type={'.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp'}[extname(image).toLowerCase()];
   const bytes=readFileSync(image);
-  const valid=type==='image/png'?bytes.subarray(0,8).equals(Buffer.from('89504e470d0a1a0a','hex')):type==='image/jpeg'?bytes[0]===255&&bytes[1]===216&&bytes[2]===255:type==='image/webp'?bytes.subarray(0,4).toString()==='RIFF'&&bytes.subarray(8,12).toString()==='WEBP':false;
+  const valid=type==='image/png'?validPng(bytes):type==='image/jpeg'?bytes[0]===255&&bytes[1]===216&&bytes[2]===255:type==='image/webp'?bytes.subarray(0,4).toString()==='RIFF'&&bytes.subarray(8,12).toString()==='WEBP':false;
   if(!valid)throw new Error('Image must contain PNG, JPEG or WebP bytes matching its extension');
   return {bytes,type,name,symbol,description};
 }
@@ -31,18 +46,39 @@ export async function verifyPinned(uri,expected,{fetcher=fetch,gateway=process.e
 }
 async function main(){
   const [image,name,symbol]=process.argv.slice(2),receipt=process.env.METADATA_RECEIPT;
-  if(!receipt||existsSync(receipt))throw new Error('Set METADATA_RECEIPT to a new receipt path before uploading');
+  const provider=process.env.METADATA_PROVIDER??'turbo';
+  if(!['turbo','pinata'].includes(provider))throw new Error('METADATA_PROVIDER must be turbo or pinata');
+  if(!receipt)throw new Error('Set METADATA_RECEIPT to a persistent receipt path');
   const input=metadataInput(image,name,symbol,process.env.DESCRIPTION??'');
-  const record={name,symbol,imageSha256:hash(input.bytes),verified:false};
-  // Reserve receipt before a billable upload; bad paths must fail before pinning.
-  writeFileSync(receipt,JSON.stringify(record,null,2)+'\n',{mode:0o600,flag:'wx'});
+  if(provider==='turbo'&&input.bytes.length>100*1024)throw new Error('Free-only Turbo images must be at most100KiB; resize/compress the asset first');
+  const identity={name,symbol,provider,imageSha256:hash(input.bytes),description:input.description};
+  const record=existsSync(receipt)?JSON.parse(readFileSync(receipt)):{...identity,verified:false};
+  for(const [k,v] of Object.entries(identity))if(record[k]!==v)throw new Error('Receipt belongs to different metadata: '+k);
+  if(!existsSync(receipt))writeFileSync(receipt,JSON.stringify(record,null,2)+'\n',{mode:0o600,flag:'wx'});
   const save=()=>writeFileSync(receipt,JSON.stringify(record,null,2)+'\n',{mode:0o600});
-  record.image=await pinFile(input.bytes,input.type,basename(image));save();
-  await verifyPinned(record.image,input.bytes);
+  const client=provider==='turbo'?turboClient(process.env.METADATA_UPLOAD_KEYPAIR):null;
+  async function upload(field,bytes,type,filename){
+    if(record[field])return record[field];
+    if(provider==='pinata')record[field]=await pinFile(bytes,type,filename);
+    else {
+      const uploaded=await uploadFreeTurbo(client,bytes,type,prepared=>{
+        if(record[field+'Prepared']?.id&&record[field+'Prepared'].id!==prepared.id)throw new Error('Pending upload identity changed');
+        record[field+'Prepared']=prepared;save();
+      });
+      record[field]=uploaded.uri;record[field+'Upload']=uploaded;
+    }save();return record[field];
+  }
+  async function verify(field,bytes){
+    if(provider==='turbo')record[field+'Readback']=await verifyTurbo(record[field],bytes);
+    else await verifyPinned(record[field],bytes);
+    save();
+  }
+  await upload('image',input.bytes,input.type,basename(image));await verify('image',input.bytes);
   const metadata={name,symbol,image:record.image,description:input.description,properties:{files:[{uri:record.image,type:input.type}],category:'image'}};
-  const bytes=Buffer.from(JSON.stringify(metadata));record.metadataSha256=hash(bytes);
-  record.uri=await pinFile(bytes,'application/json','metadata.json');save();
-  await verifyPinned(record.uri,bytes);record.verified=true;record.verifiedAt=new Date().toISOString();save();
-  console.log(JSON.stringify(record,null,2));
+  const bytes=Buffer.from(JSON.stringify(metadata));record.metadataSha256=hash(bytes);save();
+  await upload('uri',bytes,'application/json','metadata.json');await verify('uri',bytes);
+  record.verified=true;record.verifiedAt=new Date().toISOString();save();
+  console.log(JSON.stringify({provider,uri:record.uri,image:record.image,verified:true,chargedWinc:provider==='turbo'?'0':undefined,receipt},null,2));
 }
+
 if(process.argv[1]&&pathToFileURL(resolve(process.argv[1])).href===import.meta.url)await main();

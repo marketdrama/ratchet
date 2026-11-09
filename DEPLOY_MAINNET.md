@@ -88,18 +88,25 @@ coin can still be created with no dev buy; it requires only account rents/fees. 
 
 ## Create or resume a coin
 
-Pin permanent metadata first. The helper uploads an image and JSON to your configured Pinata account:
+Host and verify actual metadata assets first. Default Turbo/Arweave uploads require no login or API key:
 
 ```sh
-PINATA_JWT=<your-token> node scripts/pin-metadata.mjs /absolute/image.png "Coin Name" COIN
+METADATA_RECEIPT=/absolute/coin-metadata-receipt.json \
+  node scripts/pin-metadata.mjs /absolute/image.png "Coin Name" COIN
 ```
 
-The returned `ipfs://…` JSON URI is immutable on-chain. HTTPS URIs fix only the address, not the hosted content; use content-addressed storage for immutable assets. Retain/pin its image and JSON for long-term access.
-Never commit the JWT. Uploads need a working account/token and were not performed in this environment.
+Keep images at most100KiB. The helper creates a dedicated unfunded local signing key, checks live free
+quota, requires zero credits and makes no SOL transfer. It saves service receipts and publicly verifies
+image/JSON byte hashes. Identical commands resume/recheck existing receipts. A real zero-charge hosting
+proof is in release/metadata-hosting-proof.json. Gateway availability is verified; final Arweave settlement
+must be checked separately before launch. Details/optional Pinata path: OPERATIONS.md.
+
+The returned HTTPS JSON URL is fixed on-chain. It addresses an Arweave data-item ID; receipts retain ar://
+identifiers for retrieval through other gateways. Do not put the proof/check metadata on a real coin.
 
 ```sh
 RPC_URL="$RPC_URL" WALLET=/secure/creator.json ACTION=create \
-  NAME="Coin Name" SYMBOL=COIN METADATA_URI=ipfs://<metadata-cid> \
+  NAME="Coin Name" SYMBOL=COIN METADATA_URI=https://turbo-gateway.com/<verified-data-id> \
   MINT_KEYPAIR=/secure/coin-mint.json DEV_BUY_SOL=0 MAX_SPEND_SOL=0.1 \
   node --experimental-strip-types onchain/app/launch-mainnet.mjs
 ```

@@ -57,19 +57,44 @@ injected for the exact release because the production ADMIN signing key is unava
 
 ## Metadata
 
-Uploader supports the current Pinata public-files API, validates UTF-8 limits/image signatures and
-verifies both pinned image and JSON bytes by public gateway readback. It writes receipts after each
-successful upload so uploaded CIDs survive a later failure. Mock tests do not claim live pinning.
-No Pinata account/JWT is configured; the owner did not know of an existing credential. Configure one
-when available, then pin the actual chosen assets before creating a mainnet coin:
+Default hosting is now **Turbo/Arweave**, with no website login or API credential. The tool generates
+.metadata-upload-keypair.json (ignored by Git,0600) solely to sign Arweave data items. Do not fund it or
+use a production ADMIN/deployment key. It makes no Solana transaction and cannot pay SOL. It requires
+zero Turbo credit balance, reads live free limits/quota, and stops on quota exhaustion or payment demand.
+No credit top-up, sponsorship or x402 payment is attempted.
+
+Keep images at most100KiB; the service currently allows107520-byte signed items. JSON is bounded by the
+same live limit. The current free lifetime quota is10MiB per signer/IP range, adequate for ten small-asset
+launches if quota remains. This is provider policy and can change; the tool checks it each upload.
 
 ```sh
-METADATA_RECEIPT=/absolute/new-receipt.json node --env-file=.env.operations scripts/pin-metadata.mjs /absolute/image.png Name SYMBOL
+METADATA_RECEIPT=/absolute/receipt.json node scripts/pin-metadata.mjs /absolute/image.png Name SYMBOL
 ```
 
-PINATA_JWT must be a private environment variable. IPFS_GATEWAY may select another HTTPS /ipfs/ gateway.
-If readback fails, keep the saved CID receipt and retry retrieval before any create; don't blindly repeat
-uploads. A provider pin must remain retained/funded: an IPFS address alone does not guarantee permanence.
+Optional DESCRIPTION controls the JSON description. Repeat the identical command/receipt to resume or
+recheck existing uploads without reposting completed files. Receipts bind provider, content hashes,
+name/symbol and description; mismatches stop. Pending deterministic signed-item IDs are saved before POST.
+Both image and JSON are retrieved publicly and checked byte for byte. MIME types are set explicitly.
+
+Live proof: release/metadata-hosting-proof.json records a public proof image and JSON, zero charges,
+matching SHA256 readback and correct image/png/application/json content types. The JSON has CORS*. These
+are hosting-check assets; no token was created. Latest readback reports gatewayVerified=false and
+chainStable=false: public retrieval is proven, final Arweave settlement is **pending**, not claimed.
+Receipt signatures/deadlines are retained. Re-run the proof command below later to refresh those flags.
+
+```sh
+METADATA_RECEIPT=release/metadata-hosting-proof.json \
+DESCRIPTION='Public metadata hosting verification. No token was launched.' \
+node scripts/pin-metadata.mjs test/fixtures/metadata-check.png 'Ratchet Hosting Check' RHOST
+```
+
+Permanent storage does not guarantee a particular HTTP gateway's uptime. The receipt retains ar:// IDs,
+so content can be retrieved through other Arweave gateways after indexing. On-chain metadata URLs are
+immutable once a coin is created; choose and verify actual coin assets before launch.
+
+Pinata remains optional: set METADATA_PROVIDER=pinata and configure PINATA_JWT privately. That path
+supports PNG/JPEG/WebP up to5MiB and verifies IPFS gateway retrieval. No Pinata login is required for the
+default Turbo path. Browser access to Pinata was declined; no attempt was made to bypass that denial.
 
 ## Funding and future closure
 

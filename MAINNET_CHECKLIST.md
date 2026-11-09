@@ -21,7 +21,8 @@ Technical release preparation and public mainnet launch are distinct gates. See 
 - [ ] Independent audit of this v4 source, including full-supply backing and migration CPI.
 - [x] Private mainnet RPC configured and read-only gateway verified.
 - [ ] Secure funded deployer and accessible ADMIN signer.
-- [ ] Permanent image/JSON hosting account and retained pins; verify a real metadata URI.
+- [x] Live no-login image/JSON hosting via Turbo/Arweave; zero-charge receipt and byte-verified URLs.
+- [ ] Confirm Arweave settlement of actual chosen coin assets before launch; proof assets are not a coin launch.
 - [ ] Deploy the exact reviewed binary; initialize production globals; compare deployed bytecode.
 - [ ] Real mainnet migration/redemption smoke proof on a separately reviewed test deployment/config.
 - [x] Two fresh isolated pinned Linux builds match (local evidence, not third-party attestation).

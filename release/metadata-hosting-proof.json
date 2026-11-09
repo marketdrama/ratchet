@@ -1,0 +1,80 @@
+{
+  "name": "Ratchet Hosting Check",
+  "symbol": "RHOST",
+  "provider": "turbo",
+  "imageSha256": "7ac2abfce2be8b46dd9826d597d94edeefc1570b4a992622721b90a1850e3ee9",
+  "description": "Public metadata hosting verification. No token was launched.",
+  "verified": true,
+  "imagePrepared": {
+    "id": "kjjm8wACHltnIfUphsYFurm23O0qsJQB9o63b8qE2bo",
+    "sha256": "7ac2abfce2be8b46dd9826d597d94edeefc1570b4a992622721b90a1850e3ee9",
+    "maxItemBytes": 107520,
+    "bytesRemaining": 10485002,
+    "signedItemBytes": 235
+  },
+  "image": "https://turbo-gateway.com/kjjm8wACHltnIfUphsYFurm23O0qsJQB9o63b8qE2bo",
+  "imageUpload": {
+    "uri": "https://turbo-gateway.com/kjjm8wACHltnIfUphsYFurm23O0qsJQB9o63b8qE2bo",
+    "storageUri": "ar://kjjm8wACHltnIfUphsYFurm23O0qsJQB9o63b8qE2bo",
+    "receipt": {
+      "id": "kjjm8wACHltnIfUphsYFurm23O0qsJQB9o63b8qE2bo",
+      "timestamp": 1794183802640,
+      "winc": "0",
+      "version": "0.2.0",
+      "deadlineHeight": 2038579,
+      "dataCaches": [
+        "turbo-gateway.com"
+      ],
+      "fastFinalityIndexes": [
+        "turbo-gateway.com"
+      ],
+      "public": "wZgP9Rpfh0nXb5EdzBUg7y2LFMkBp2ADX3gdZhLXHYbz4srlYD6FUGn6Tt-WsSYj8faUyA7bNKj9zzcXiN-bsMC73e0yoQ05A_5I2QnBAgCTuzXePvUVCvSCOg1vdh07hSjvSBd1XiWDHw2J-Z7m6lG3l56PDSCp8t-s0PduONcsjqOePFejzkaJymJxMYp7d0g0GL1i1MrBAbf5ohIobyTYQz7bRHLLUpdSgiCiHbSBp092cIQnHYXGBeWb-lBEtMT9Am5GsHeVXq4eL8H83NBPIN4fIOtwpl7zzBUeaD5lTc3UcXliMjFuFJurVmNhqsP_osJMceybk3VIjdP0biqLqt_nRupdPwwJGQ09iyGv0wfzMBlx7zTZ9pp77ZBX3cDnYmWt2IR-mIgOStfiEHu5BuwNGBvGt7-tzHJp9e6IOofN10apfiuF9iQEQ3gFVQDZ7owQ_IrCq5yWLP7ePwYoB2e7ZbvCkd4JM8oOgEMZkywTOx3gLASGKS7wqUerdlYacWRukqg5MmkQRbzJIiY23pPwrhQSWon5q91jbImO6vTaHVDZnd2GoMFlePAsceNO1MaLS6GMuY-EAwOtaX-R1QZUpJmCzWfV-77AmBmaPDCR0mm3f7jy-3yYSCMAkti4idHVq5dIhOJnibd_LEfQtkTAQ5MQlE4uoa5lkJs",
+      "signature": "g2HwEfEtxfC_9l4afw8F2HtYuCyPULSN51tlnDY2YTkjN3QCCZHMEdZD0scc3V_P429EvfyyLl3hmOPg2wjjOv2HQvXFKWF2yN_weIPLHdGsQJ53ntWl-6_oFD5nid7NCHJCm35-TgmDzfHkzpguA-EjpMiM7ZerJyKZcP-av1pBT-mdM1OaQbfAKlNEMdyxfCKoI2Fk2wK3DlrhqvO6Fu_6y70fJdUbNhN8PADnz-FnTc1VdCAPDsfmyw0X4Zen2BNSEQHEvO27iHA73KRe18KKbOCg3bHTwMb2BPp4pAaxZ3ABtBYsCfrJN9hPk82uLFmWwd-n5q2UuDnYFGfntB4R2icqr_EWMj7cqxn0TxGUDzpshVdzi9dTeTkO5z2QtTzvQe0dzyTCwsI2xSY4fgh_QcVJyf2-dLXR4fjAkXm2Vujm7Yn866mwESIQMQ3bpoqFcErxcCBob87FaMdS0vo23m1Ben6LsgwvBF1K6BUCIOn99WVCbcw6Zt2Z0MFcyNkBFGRADB2rNUmhjRf6vioyJ6_03XMbxYdfrF7Obkq3nStxK7Ay0jHXzmgUqnlMkpRT2Nl5UZjw7rg14iiaj-5x82ExYBDoQsjUoZZgGx4QVRTtnHYS5c_PXzEnTAAJRbwWsV2YL3MVCm2xhSFT0DJrOfDvxar-hZCYNUI_8iE",
+      "owner": "2VyCY4QZHrc_rg2Ol_tzZV-JAuLTo2BAemhd5G5j_uM",
+      "byteCount": 235
+    }
+  },
+  "imageReadback": {
+    "sha256": "7ac2abfce2be8b46dd9826d597d94edeefc1570b4a992622721b90a1850e3ee9",
+    "contentType": "image/png",
+    "gatewayVerified": false,
+    "chainStable": false
+  },
+  "metadataSha256": "dea5ccf5ae08eb7b3ca7867932f3d49ee080ecd1b38f7a197a42c6544420f5be",
+  "uriPrepared": {
+    "id": "FBTa4xIhStHd_IfH8hYOjt-z6qJ054ruMysQm2e5TRs",
+    "sha256": "dea5ccf5ae08eb7b3ca7867932f3d49ee080ecd1b38f7a197a42c6544420f5be",
+    "maxItemBytes": 107520,
+    "bytesRemaining": 10484767,
+    "signedItemBytes": 523
+  },
+  "uri": "https://turbo-gateway.com/FBTa4xIhStHd_IfH8hYOjt-z6qJ054ruMysQm2e5TRs",
+  "uriUpload": {
+    "uri": "https://turbo-gateway.com/FBTa4xIhStHd_IfH8hYOjt-z6qJ054ruMysQm2e5TRs",
+    "storageUri": "ar://FBTa4xIhStHd_IfH8hYOjt-z6qJ054ruMysQm2e5TRs",
+    "receipt": {
+      "id": "FBTa4xIhStHd_IfH8hYOjt-z6qJ054ruMysQm2e5TRs",
+      "timestamp": 1794183803075,
+      "winc": "0",
+      "version": "0.2.0",
+      "deadlineHeight": 2038580,
+      "dataCaches": [
+        "turbo-gateway.com"
+      ],
+      "fastFinalityIndexes": [
+        "turbo-gateway.com"
+      ],
+      "public": "wZgP9Rpfh0nXb5EdzBUg7y2LFMkBp2ADX3gdZhLXHYbz4srlYD6FUGn6Tt-WsSYj8faUyA7bNKj9zzcXiN-bsMC73e0yoQ05A_5I2QnBAgCTuzXePvUVCvSCOg1vdh07hSjvSBd1XiWDHw2J-Z7m6lG3l56PDSCp8t-s0PduONcsjqOePFejzkaJymJxMYp7d0g0GL1i1MrBAbf5ohIobyTYQz7bRHLLUpdSgiCiHbSBp092cIQnHYXGBeWb-lBEtMT9Am5GsHeVXq4eL8H83NBPIN4fIOtwpl7zzBUeaD5lTc3UcXliMjFuFJurVmNhqsP_osJMceybk3VIjdP0biqLqt_nRupdPwwJGQ09iyGv0wfzMBlx7zTZ9pp77ZBX3cDnYmWt2IR-mIgOStfiEHu5BuwNGBvGt7-tzHJp9e6IOofN10apfiuF9iQEQ3gFVQDZ7owQ_IrCq5yWLP7ePwYoB2e7ZbvCkd4JM8oOgEMZkywTOx3gLASGKS7wqUerdlYacWRukqg5MmkQRbzJIiY23pPwrhQSWon5q91jbImO6vTaHVDZnd2GoMFlePAsceNO1MaLS6GMuY-EAwOtaX-R1QZUpJmCzWfV-77AmBmaPDCR0mm3f7jy-3yYSCMAkti4idHVq5dIhOJnibd_LEfQtkTAQ5MQlE4uoa5lkJs",
+      "signature": "wLIB5ld6LebWGBmskvZ3JViMP7eUS5csiUSo0Wc_syCQEMFsyGjELuj71ojt7uRYtcXgArDS766k52stnAd0NV19JyoicjHg01hmQifgcUuWkNdg-_eeTM_g0_G4rkUUeJDLCa-CcGQazE20Tg3VI9DNMr_PprPBG0KwD0vgHc0WTcJ4dDJTeluGwuDrJUNMsVFDvM4Rb56YAVRiUQ3Qm5ugF5u5b8M4Y3G-dldeft6hIYpASOjEe2SzykLayg3MJuMjOaDz_alWZy1GPxycioNv9DSm2cC9pKffof2KOj_dmqfjAjGElaG0Vq3OkXEvVhGoEPvbHaIujru7hkw8m7Yx8-YpvN8Mvmluecf3rGIWDmjBQ_aIVQ7Bcuvou3uy3J5HK6X5m5-h2YkttY2fbc8zNiWStupAbtArg71TLqSHiQl9IG88N4Z-X5NBai-_qOohZvMs4-7-KdoB-oU8h0tWHpFAKfIJNsCc4VIPRTjXIKOGv3YrcGuNUIw23Fzbg_hT7dukxh-YyPbRkWKECeGJkmuiZ9ugCA9YYdvwYb273fhZs-Vbd2XpdVvvF6gJEuoQNtb0RLyQ3vri_V65OG7HrH9UuV0QJsLOL6Z1o6F0R_4qUwTmb9StiukUeITt_FZjmaP2V6VGkDdndIS31APPHFVB0i4DLOuQbzwClL4",
+      "owner": "2VyCY4QZHrc_rg2Ol_tzZV-JAuLTo2BAemhd5G5j_uM",
+      "byteCount": 523
+    }
+  },
+  "uriReadback": {
+    "sha256": "dea5ccf5ae08eb7b3ca7867932f3d49ee080ecd1b38f7a197a42c6544420f5be",
+    "contentType": "application/json",
+    "gatewayVerified": false,
+    "chainStable": false
+  },
+  "verifiedAt": "2026-11-09T00:23:40.943Z"
+}

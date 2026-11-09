@@ -14,3 +14,5 @@ onchain/target/
 .DS_Store
 release/*.so
 release/*.tar.gz
+
+.metadata-uploads/

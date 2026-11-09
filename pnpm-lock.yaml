@@ -14,6 +14,9 @@ importers:
 
   .:
     dependencies:
+      '@ardrive/turbo-upload':
+        specifier: 0.7.0
+        version: 0.7.0
       '@coral-xyz/anchor':
         specifier: 0.31.1
         version: 0.31.1(bufferutil@4.1.0)(typescript@5.8.3)(utf-8-validate@6.0.6)
@@ -44,7 +47,7 @@ importers:
         version: 19.1.6(@types/react@19.1.8)
       puppeteer:
         specifier: 25.1.0
-        version: 25.1.0(bufferutil@4.1.0)
+        version: 25.1.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       typescript:
         specifier: 5.8.3
         version: 5.8.3
@@ -62,6 +65,10 @@ importers:
         version: 1.98.4(bufferutil@4.1.0)(typescript@5.8.3)(utf-8-validate@6.0.6)
 
 packages:
+
+  '@ardrive/turbo-upload@0.7.0':
+    resolution: {integrity: sha512-SaNqoIVtY6m14SUChtYV/tq0iyGol4mmseF+fxnLw8KpuCeT6dznohii/GGV2RjDjfC5ubkcZoU/puyEy5ijsQ==}
+    engines: {node: '>=18.17.0'}
 
   '@babel/runtime@7.29.13':
     resolution: {integrity: sha512-v+oN26xP4YIlQsbQ/CbTH1WG5m/l/DjKKZNy/Kp3f/AFvbgt7Em/D0FeMM3O2hX0YzeN2M16W8lOpyhIkfCBcQ==}
@@ -814,6 +821,8 @@ packages:
 
 snapshots:
 
+  '@ardrive/turbo-upload@0.7.0': {}
+
   '@babel/runtime@7.29.13': {}
 
   '@coral-xyz/anchor-errors@0.31.1': {}
@@ -1358,7 +1367,7 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.2
 
-  puppeteer-core@25.1.0(bufferutil@4.1.0):
+  puppeteer-core@25.1.0(bufferutil@4.1.0)(utf-8-validate@6.0.6):
     dependencies:
       '@puppeteer/browsers': 3.0.4
       chromium-bidi: 16.0.1(devtools-protocol@0.0.1624250)
@@ -1371,13 +1380,13 @@ snapshots:
       - proxy-agent
       - utf-8-validate
 
-  puppeteer@25.1.0(bufferutil@4.1.0):
+  puppeteer@25.1.0(bufferutil@4.1.0)(utf-8-validate@6.0.6):
     dependencies:
       '@puppeteer/browsers': 3.0.4
       chromium-bidi: 16.0.1(devtools-protocol@0.0.1624250)
       devtools-protocol: 0.0.1624250
       lilconfig: 3.1.4
-      puppeteer-core: 25.1.0(bufferutil@4.1.0)
+      puppeteer-core: 25.1.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       typed-query-selector: 2.12.3
     transitivePeerDependencies:
       - bufferutil

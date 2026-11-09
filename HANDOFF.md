@@ -88,8 +88,7 @@ come last. Do not launch test coins or modify the hosted Lovable UI in this pass
 QuickNode mainnet RPC is now configured in **.env.operations**, variable **RPC_URL**, mode **0600**;
 Git ignores the file. Credentials must never appear in tracked docs, browser bundles or logs. Verified
 mainnet genesis and a successful RPC request. The endpoint reports Agave **4.4.0**; matching-runtime
-compatibility verification is now part of release preparation. Metadata pinning credentials are still
-not configured. Requested account details asynchronously; user provided RPC credentials only so far.
+compatibility verification is now part of release preparation. Pinata credentials are absent; the later no-login Turbo/Arweave path below supersedes that requirement.
 
 Delivered: live price and actual mint-supply data, private RPC gateway, verified-upload helper,
 read-only shutdown checks, pinned isolated build environment and audit scope. See OPERATIONS.md. A third-party audit cannot be claimed from developer
@@ -98,7 +97,8 @@ self-review. No mainnet writes are being performed.
 ## Next / what remains
 
 1. Independent Solana audit of v4, including floor liabilities and migration.
-2. Configure permanent metadata hosting/pins, accessible ADMIN signer and funded deployer. Private
+2. Select actual coin assets and verify their hosted URLs, then supply accessible ADMIN signer/funded deployer.
+   No-login Turbo/Arweave hosting is live and verified (proof below). Private
    QuickNode RPC is configured; Discover plan has a five-account batch limit and burst quotas.
 3. Publish reviewed source and obtain independent build attestation. Docker/solana-verify are installed;
    two fresh isolated Linux builds match locally. Canonical-runtime acceptance is in release/exact-bytecode-proof.json.
@@ -125,5 +125,14 @@ credential found in source/browser assets. See OPERATIONS.md, AUDIT_SCOPE.md and
 Current ProgramData quote1.87357004SOL; program/global +10 launches2.09088248SOL before dev buys/network
 fees. Actual mainnet program is absent. No mainnet transactions were sent. All actual Lovable UI/UX and
 mainnet test-launch work remain deliberately deferred. External audit, source publication/independent
-attestation, live metadata account/pins and production signing/funding remain unfulfilled owner/external
-gates. User does not know of an existing Pinata credential; don't repeatedly ask for it.
+attestation and production signing/funding remain owner/external gates. No-login Turbo/Arweave hosting
+now replaces the earlier Pinata account requirement; actual coin assets are still chosen before launch.
+
+## Live metadata hosting fixed — no login (2026-11-09)
+
+Default uploader uses Turbo/Arweave with a dedicated unfunded local signer (.metadata-upload-keypair.json,
+ignored,0600), no API key or website login. Zero-credit/free-quota guards prevent paid fallback. Live
+image+JSON uploads succeeded with winc0; both public byte hashes/MIME types match, JSON has CORS*. Proof:
+release/metadata-hosting-proof.json.34 tests pass. Public retrieval is proven; final Arweave settlement
+flags remain false/pending at latest readback. See OPERATIONS.md for commands/limits/resume. Actual coin
+assets are not selected and no Solana token was launched. Pinata is optional, not a launch requirement.
