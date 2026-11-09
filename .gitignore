@@ -16,3 +16,5 @@ release/*.so
 release/*.tar.gz
 
 .metadata-uploads/
+release/*.zip
+release/*.bundle

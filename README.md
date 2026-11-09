@@ -10,6 +10,15 @@ reserve continues to back every outstanding token at the fixed graduation floor.
 **Deployment plan:** temporary upgradeable showcase, followed by wind-down and ProgramData rent recovery.
 Upgrade authority stays with the owner; do not finalize. See the shutdown conditions in the runbook.
 
+## Frontend work in parallel
+
+Lovable can build the UI now using [LOVABLE_HANDOFF.md](LOVABLE_HANDOFF.md) and the generated
+[lovable-wiring](lovable-wiring/README.md) kit. Keep mainnet trading disabled until the launch checklist
+passes. The v4 interface is the current integration target; audit or final testing may require fixes.
+
+Source is licensed under [MIT](LICENSE). See [CONTRIBUTING.md](CONTRIBUTING.md) and
+[SECURITY.md](SECURITY.md). Public source is not an audit or proof of mainnet deployment.
+
 ## Mechanics
 
 - Buy tax: 1.25%; creator-selected curve sell tax: 1.25–5%. Both go entirely to the floor vault.

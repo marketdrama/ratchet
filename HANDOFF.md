@@ -136,3 +136,11 @@ image+JSON uploads succeeded with winc0; both public byte hashes/MIME types matc
 release/metadata-hosting-proof.json.34 tests pass. Public retrieval is proven; final Arweave settlement
 flags remain false/pending at latest readback. See OPERATIONS.md for commands/limits/resume. Actual coin
 assets are not selected and no Solana token was launched. Pinata is optional, not a launch requirement.
+
+## Lovable can proceed in parallel / open source — 2026-11-09
+
+User now approves starting Lovable UI/UX in parallel with remaining deployment/audit work. Send the root
+LOVABLE_HANDOFF.md and release/ratchet-lovable-v4.zip (current21-file kit), not the archived v2/v3 brief.
+Keep mainnet trading disabled. Audit/testing may require fixes; sync the kit if protocol/IDL changes.
+Open-source publication is authorized under the existing MIT license. Codeberg's cryptocurrency ban
+rules it out; GitHub marketdrama/ratchet is the chosen alternative. Publication outcome is logged below.

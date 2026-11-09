@@ -983,3 +983,23 @@ vulnerabilities. Release manifest resealed/verified; on-chain binary/source unch
 signer remains ignored/0600; source credential scan found0matches. Updated source archive/logs. Login
 and Pinata account setup no longer block live hosting. Final Arweave settlement remains explicitly
 pending in readback flags; no mainnet token/test launch or hosted Lovable UI changes were made.
+
+## 2026-11-09 — Lovable parallel handoff and open-source publication preparation
+
+User approved starting Lovable UI work in parallel and requested open-source publication on Codeberg or
+an alternative. Confirmed MIT license already exists. Replaced the misleading historical root Lovable
+brief with current v4 guidance; preserved historical brief under docs/archive. Focused handoff ZIP includes
+21 public integration/dependency/doc files, excludes private environment files/signers/old sample data.
+Lovable may implement UI now with mainnet guard false; final audit/testing can still require technical
+fixes, so the API is a release-candidate contract, not a promise that no more code changes can occur.
+
+Codeberg login page explicitly announces cryptocurrency projects are no longer allowed. Did not create
+an account/repository or accept terms there. Selected GitHub alternative; existing git credential helper
+successfully authenticates as marketdrama. No credential printed or stored in tracked files. No installed
+GitHub connector was available; used existing authenticated Git/API access. Repository name ratchet is
+available. Prepared current handoff, contribution/security docs and source-only publication.
+
+Publication checks: Gitleaks8.30.1 scans all6 pre-publication commits (~733KB), no leaks. Additional custom
+scan of188 historical blobs finds0matches for known local wallet arrays/authenticated RPC credentials.
+Program binaries, target/node_modules, .env.operations and metadata upload key remain ignored. Contract
+source/binary/IDL unchanged; release manifest passes. No mainnet transaction or actual Lovable app edit.
